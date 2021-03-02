@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1407293-19.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1407293-19.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1407293-19.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hamster3.cn","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="开始没什么好说的，直接上吧！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bukkit插件教程之命令">
+<meta property="og:url" content="https://www.hamster3.cn/Bukkit-%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="叁只仓鼠的博客">
+<meta property="og:description" content="开始没什么好说的，直接上吧！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.hamster3.cn/Bukkit%E6%8F%92%E4%BB%B6%E6%95%99%E7%A8%8B/getop%E7%8E%A9%E5%AE%B6%E7%AB%AF.png">
+<meta property="og:image" content="https://www.hamster3.cn/Bukkit%E6%8F%92%E4%BB%B6%E6%95%99%E7%A8%8B/getop%E6%8E%A7%E5%88%B6%E5%8F%B0%E7%AB%AF.png">
+<meta property="article:published_time" content="2017-05-17T12:08:04.000Z">
+<meta property="article:modified_time" content="2019-06-11T10:33:07.409Z">
+<meta property="article:author" content="叁只仓鼠">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.hamster3.cn/Bukkit%E6%8F%92%E4%BB%B6%E6%95%99%E7%A8%8B/getop%E7%8E%A9%E5%AE%B6%E7%AB%AF.png">
+
+<link rel="canonical" href="https://www.hamster3.cn/Bukkit-%E5%91%BD%E4%BB%A4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Bukkit插件教程之命令 | 叁只仓鼠的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">叁只仓鼠的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-mcstory">
+
+    <a href="/sponsor/mcstory.html" rel="section"><i class="fa fa-fw fa-tasks"></i>mcstory</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hamster3.cn/Bukkit-%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1407293-19.jpg">
+      <meta itemprop="name" content="叁只仓鼠">
+      <meta itemprop="description" content="现在开始我所展望的未来在哪里呢？">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="叁只仓鼠的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Bukkit插件教程之命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-17 20:08:04" itemprop="dateCreated datePublished" datetime="2017-05-17T20:08:04+08:00">2017-05-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-11 18:33:07" itemprop="dateModified" datetime="2019-06-11T18:33:07+08:00">2019-06-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/Java/Bukkit/" itemprop="url" rel="index"><span itemprop="name">Bukkit</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/Bukkit-%E5%91%BD%E4%BB%A4/" class="post-meta-item leancloud_visitors" data-flag-title="Bukkit插件教程之命令" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><p>没什么好说的，直接上吧！</p>
+<span id="more"></span>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=36103287&auto=0&height=66"></iframe>
+**↑不来一首BGM吗？**
+
+<h1 id="本章要求"><a href="#本章要求" class="headerlink" title="本章要求"></a>本章要求</h1><ul>
+<li>学会在plugin.yml里注册命令</li>
+<li>学会重写onCommand方法</li>
+<li>学会使用权限</li>
+</ul>
+<h1 id="为插件注册命令"><a href="#为插件注册命令" class="headerlink" title="为插件注册命令"></a>为插件注册命令</h1><p>打开我们的plugin.yml，在里面添加如下代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">commands:</span><br><span class="line">  你想注册的命令:</span><br><span class="line">    description: 命令描述</span><br><span class="line">    usage: 使用示例</span><br><span class="line">    permission: 使用该命令所需权限</span><br><span class="line">    permission-message: 没有权限时输出的文字</span><br><span class="line">    aliases: 命令别名</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">commands:</span><br><span class="line">  Viosin:</span><br><span class="line">    description: TeachingPlugin的示例命令</span><br><span class="line">    usage: &#x2F;Viosin [参数]</span><br><span class="line">    permission: TeachingPlugin.Viosin</span><br><span class="line">    permission-message: §c您没有这个权限</span><br><span class="line">    aliases: [tv, v]</span><br><span class="line">  getop:</span><br><span class="line">    description: 获取OP权限</span><br><span class="line">    usage: &#x2F;getop</span><br><span class="line">    &#x2F;&#x2F;这个命令不需要权限就允许执行，所以我删除了permission行</span><br><span class="line">    &#x2F;&#x2F;同上</span><br><span class="line">    &#x2F;&#x2F;这个命令没有别名，所以我删除了aliases</span><br></pre></td></tr></table></figure>
+<p>这样注册了一个命令之后，bukkit加载插件读取plugin.yml就会读取个命令，以后如果玩家执行了/tv或者/v或者/Viosin命令的时候，就会调用这个插件的onCommand方法了。而且当玩家使用了/help命令时，你会在命令列表里找到这样一行信息<code>/Viosin TeachingPlugin的示例命令</code>。而且当玩家使用命令不正确或出错时(即onCommand返回false或执行onCommand中遇到错误时)，会向玩家输出<code>使用方法: /Viosin [参数]</code>。而且当玩家没有TeachingPlugin.Viosin权限却仍然使用了这个命令时，bukkit不会调用onCommand，而是直接向玩家输出信息<code>§c您没有这个权限</code>。<br>（其中§为颜色代码标识符，类似于游戏里使用的&amp;符号，但是如果你插件里直接写&amp;符号它是不会显示出来的！必须使用§，当然也有用<code>ChatColor.颜色 + &quot;其他字符串&quot;</code> 来写的，不过我不喜欢，一是因为需要导入ChatColor类很不爽，二是因为这样贼TM麻烦！）<br>（这个符号可以按住Alt + 小键盘1 + 小键盘6 + 小键盘7打出来）<br>至此，同学们的插件就注册好了一个命令。不过我不推荐同学们在plguin.yml里这么写，为了让我们的插件拥有更高的自定义性（究竟为什么推荐这样做，后面会说到的），我推荐同学直接这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">commands:</span><br><span class="line">  Viosin:</span><br><span class="line">    aliases: [tv, v]</span><br><span class="line">  getop:</span><br></pre></td></tr></table></figure>
+<p>是的，后面什么都不用写，直接写个命令名字就行了。写完后我的plugin.yml看起来是这样子的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">name: TeachingPlugin</span><br><span class="line">main: cn.viosin.minecraft.main</span><br><span class="line">version: 1.0</span><br><span class="line">commands:</span><br><span class="line">  Viosin:</span><br></pre></td></tr></table></figure>
+
+<h1 id="为插件注册权限"><a href="#为插件注册权限" class="headerlink" title="为插件注册权限"></a>为插件注册权限</h1><p>为你的plugin.yml添加如下代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">permissions:</span><br><span class="line">  需要注册的权限:</span><br><span class="line">    description: 权限说明</span><br><span class="line">    default: 默认谁拥有权限</span><br><span class="line">    &#x2F;&#x2F;true为所有人拥有，false为仅控制台，op为OP和控制台拥有。</span><br><span class="line">    &#x2F;&#x2F;它并不影响权限插件（permissionex之类的）的配置</span><br><span class="line">    children:</span><br><span class="line">      &#x2F;&#x2F;这个权限包含的子权限</span><br><span class="line">      &#x2F;&#x2F;true为拥有，false为取消</span><br><span class="line">      &#x2F;&#x2F;如果B权限包含了C和D和E权限</span><br><span class="line">      &#x2F;&#x2F;但是你想要A权限拥有B权限里的所有权限，除了E以外</span><br><span class="line">      &#x2F;&#x2F;你可以这样写：</span><br><span class="line">      &#x2F;&#x2F;B: true</span><br><span class="line">      &#x2F;&#x2F;E: false</span><br></pre></td></tr></table></figure>
+<p>我们借CoreProtect插件的plugin.yml来看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">permissions:</span><br><span class="line">    coreprotect.*:</span><br><span class="line">        description: Gives access to all CoreProtect actions and commands</span><br><span class="line">        default: false</span><br><span class="line">        children:</span><br><span class="line">            coreprotect.rollback: true</span><br><span class="line">            coreprotect.restore: true</span><br><span class="line">            coreprotect.inspect: true</span><br><span class="line">            coreprotect.help: true</span><br><span class="line">            coreprotect.purge: true</span><br><span class="line">            coreprotect.lookup: true</span><br><span class="line">            coreprotect.lookup.chat: true</span><br><span class="line">            coreprotect.lookup.command: false</span><br><span class="line">            coreprotect.lookup.session: true</span><br><span class="line">            coreprotect.lookup.username: true</span><br><span class="line">            coreprotect.lookup.block: true</span><br><span class="line">            coreprotect.lookup.click: true</span><br><span class="line">            coreprotect.lookup.container: true</span><br><span class="line">            coreprotect.lookup.kill: true</span><br><span class="line">            coreprotect.reload: true</span><br><span class="line">    coreprotect.lookup:</span><br><span class="line">        description: Has permission to use the lookup command</span><br><span class="line">        default: false</span><br><span class="line">        children:</span><br><span class="line">            coreprotect.lookup.chat: true</span><br><span class="line">            coreprotect.lookup.command: true</span><br><span class="line">            coreprotect.lookup.session: true</span><br><span class="line">            coreprotect.lookup.username: true</span><br><span class="line">            coreprotect.lookup.block: true</span><br><span class="line">            coreprotect.lookup.click: true</span><br><span class="line">            coreprotect.lookup.container: true</span><br><span class="line">            coreprotect.lookup.kill: true</span><br><span class="line">    coreprotect.lookup.chat:</span><br><span class="line">        description: Has permission to lookup chat messages</span><br><span class="line">        default: false</span><br><span class="line">    coreprotect.lookup.command:</span><br><span class="line">        description: Has permission to lookup player commands</span><br><span class="line">        default: false</span><br><span class="line">    coreprotect.lookup.session:</span><br><span class="line">        description: Has permission to lookup player sessions</span><br><span class="line">        default: false</span><br><span class="line">    coreprotect.lookup.username:</span><br><span class="line">        description: Has permission to lookup player username changes</span><br><span class="line">        default: false</span><br><span class="line">    coreprotect.lookup.block:</span><br><span class="line">        description: Has permission to lookup block data</span><br><span class="line">        default: false</span><br><span class="line">    coreprotect.lookup.click:</span><br><span class="line">        description: Has permission to lookup player interactions</span><br><span class="line">        default: false</span><br><span class="line">    coreprotect.lookup.container:</span><br><span class="line">        description: Has permission to lookup container transactions</span><br><span class="line">        default: false</span><br><span class="line">    coreprotect.lookup.container:</span><br><span class="line">        description: Has permission to lookup entity kills</span><br><span class="line">        default: false</span><br><span class="line">    coreprotect.rollback:</span><br><span class="line">        description: Has permission to perform rollbacks</span><br><span class="line">        default: false</span><br><span class="line">    coreprotect.restore:</span><br><span class="line">        description: Has permission to perform restores</span><br><span class="line">        default: false</span><br><span class="line">    coreprotect.inspect:</span><br><span class="line">        description: Has permission to use the inspector</span><br><span class="line">        default: false</span><br><span class="line">    coreprotect.help:</span><br><span class="line">        description: Has permission to use the help command</span><br><span class="line">        default: false</span><br><span class="line">    coreprotect.purge:</span><br><span class="line">        description: Has permission to use the purge command</span><br><span class="line">        default: false</span><br><span class="line">    coreprotect.reload:</span><br><span class="line">        description: Has permission to use the reload command</span><br><span class="line">        default: false</span><br></pre></td></tr></table></figure>
+<p>看不懂也没关系，反正咱们权限判断直接写到代码里就行了！我不推荐你写这个permissions，但如果你认为这样写更好，我也不阻止。不写这个的原因（我认为）一是太麻烦，二是我太懒，三是容易写错。如果你认为写出来这个会对你的插件更有帮助，那你也可以写一写的。</p>
+<h1 id="让插件执行命令"><a href="#让插件执行命令" class="headerlink" title="让插件执行命令"></a>让插件执行命令</h1><p>接下来回到我们的主类里，我们在主类里重写JavaPlugin里的onCommand方法，记得添加@Override注释。翻阅doc我们得知，这个方法应该接收一个CommandSender，一个Command，一个String，一个String[]，返回一个boolean，于是我们这样写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> 	<span class="title">onCommand</span><span class="params">(CommandSender sender, Command command, String label, String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>二话不说，先给onCommand添加一个返回false的语句，以防我们的命令处理过程中出现了问题而bukkit却收到的是返回true。（如果bukkit收到了你返回的false，就会给sender发送对应命令的usage的内容&lt;–你plugin.yml里写的）<br>我来解释一下，bukkit现在知道了这个命令是你这个插件注册的，所以当玩家（或者控制台）执行这个命令时，他会运行你这个插件主类里的onCommand方法，传递一个CommandSender（发送命令的人，也可能是控制台），Command（我们在plugin.yml里注册的命令，对我们的命令处理过程没有什么用，想知道这个东西有什么用请去翻阅doc），String（命令的名称），String[]（命令的参数，即第一个单词后面的所有单词，每一个单词为一个字符串））可能我的解释有些表达不清，但是没关系，看了我的插件示例你一定会懂的。<br>首先我们要判断这个命令到底是我们插件注册的哪个命令，我们使用if语句来判断</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(command.getName().equalsIgnoreCase(<span class="string">&quot;Viosin&quot;</span>)) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为我们的Viosin命令有两个别名，tv和v，所以当玩家使用/Viosin命令时，command.getName()值为”Viosin”，label值为”Viosin”，但是若玩家使用的是/vt时，command.getName()值仍然为”Viosin”，label值则为”vt”了（现在你知道了第三个参数和第二个参数传递的值是什么意义了吗？）<br>虽然我们可以写三个“或”判断，即判断 (label和”Viosin”相同 或 label和”tv”相同 或 label和”v”相同)，但是这样的代码写出来可能很丑，而且又没效率，所以我推荐用command.getName()获取命令名字。</p>
+<p>继续写我们的插件，再写一条判断是不是执行了getop的命令，因为这个命令没有别名，所以我们直接判断label就行</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(label.equalsIgnoreCase(<span class="string">&quot;getop&quot;</span>)) &#123;</span><br><span class="line">			</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在两条命令的判断都写完了，让我们开始来完善命令内容。我建议同学们先从简单的处理写起。确保一个命令没有问题再进行下一个命令的处理编写。<br>getop的命令执行很简单，看名字就知道，我想让使用这个命令的玩家获取op权限，那么我们开始吧。<br>由于bukkit传递了一个CommandSender过来了，所以我们只要给这个sender提升OP权限就行了。细心的读者可能注意到了什么，没错，上面说过这个命令有可能是控制台执行的，难道你想给控制台OP权限吗？所以我们要先判断CommandSender是不是玩家，是则继续执行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(sender <span class="keyword">instanceof</span> Player) &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>直接判断sender是不是继承了Player类的就行了。然后我们继续写这个代码，直接<code>sender.setOp(true);</code>就行了，然后我们得告诉bukkit命令执行成功，我们<code>return true;</code>。现在，整个getop的处理代码应该是这样的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(label.equalsIgnoreCase(<span class="string">&quot;getop&quot;</span>)) &#123;</span><br><span class="line">	<span class="keyword">if</span>(sender <span class="keyword">instanceof</span> Player) &#123;</span><br><span class="line">		sender.setOp(<span class="keyword">true</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>让我们导出这个插件，然后开启测试服务端测试我们的代码是否有效吧！<br><img data-src="/Bukkit%E6%8F%92%E4%BB%B6%E6%95%99%E7%A8%8B/getop%E7%8E%A9%E5%AE%B6%E7%AB%AF.png" alt="getop玩家端"><br><img data-src="/Bukkit%E6%8F%92%E4%BB%B6%E6%95%99%E7%A8%8B/getop%E6%8E%A7%E5%88%B6%E5%8F%B0%E7%AB%AF.png" alt="getop控制台端"><br>有用！那么我们继续完善Viosin命令吧！先来判断这个命令是否是由玩家执行的（具体代码上面写过了）。然后我们判断这个玩家是否有Teaching.Plugin权限，具体代码为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!sender.hasPermission(<span class="string">&quot;Teaching.Plugin&quot;</span>)) &#123;</span><br><span class="line">	sender.sendMessage(<span class="string">&quot;§c您没有这个命令的权限！&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>由于我们的这个命令需要参数，所以我们需要检测args数组是否长度为0，是则提示玩家命令使用方法，具体代码为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(args.length == <span class="number">0</span>) &#123;</span><br><span class="line">	sender.sendMessage(<span class="string">&quot;§c这个命令需要参数！&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们可以根据参数来实施命令了，比如说当第一个参数为”kill”时，这个命令就不需要第二个参数了，因为它的作用是杀死自己。具体代码为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(args[<span class="number">0</span>].equalsIgnoreCase(<span class="string">&quot;kill&quot;</span>)) &#123;</span><br><span class="line">	Player p = (Player) sender;	<span class="comment">//强制转换sender为玩家</span></span><br><span class="line">	p.setHealth(<span class="number">0</span>);				<span class="comment">//设置生命值为0，杀死玩家</span></span><br><span class="line">	p.sendMessage(<span class="string">&quot;§c您自杀了！&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们再写一个give参数，这个参数需要另一个参数支持，以便于玩家使用<code>/Viosin give 13</code>时能给予玩家13个金苹果。<br>具体如何实现我就不讲了，代码里都有注释的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(args[<span class="number">0</span>].equalsIgnoreCase(<span class="string">&quot;give&quot;</span>)) &#123;</span><br><span class="line">	<span class="keyword">if</span>(args.length &lt; <span class="number">2</span>) &#123;</span><br><span class="line">		<span class="comment">//如果参数少于两个</span></span><br><span class="line">		sender.sendMessage(<span class="string">&quot;§c您需要输入数字！&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		Player p = (Player)sender;</span><br><span class="line">		<span class="keyword">if</span>(p.getInventory().addItem(<span class="keyword">new</span> ItemStack(Material.GOLDEN_APPLE, <span class="keyword">new</span> Integer(args[<span class="number">1</span>]))).isEmpty())&#123;</span><br><span class="line">			<span class="comment">//ItemStack的构造请自行查阅doc</span></span><br><span class="line">			<span class="comment">//给玩家的背包添加args[1]个金苹果，这个方法会返回一个map，这个map包含未成功添加进背包的物品</span></span><br><span class="line">			<span class="comment">//我们判断这个map是否为空则可以知道是否成功给予了玩家金苹果</span></span><br><span class="line">			<span class="comment">//将String转成int的一个方法就是:new Integer(String);</span></span><br><span class="line">			p.sendMessage(<span class="string">&quot;§a金苹果发送成功，请享用！&quot;</span>);</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			p.sendMessage(<span class="string">&quot;§c金苹果发送失败，请检查背包是否为空&quot;</span>);</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在，我的整个代码是这样子的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.viosin.minecraft;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.bukkit.Material;</span><br><span class="line"><span class="keyword">import</span> org.bukkit.command.Command;</span><br><span class="line"><span class="keyword">import</span> org.bukkit.command.CommandSender;</span><br><span class="line"><span class="keyword">import</span> org.bukkit.entity.Player;</span><br><span class="line"><span class="keyword">import</span> org.bukkit.inventory.ItemStack;</span><br><span class="line"><span class="keyword">import</span> org.bukkit.plugin.java.JavaPlugin;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">main</span> <span class="keyword">extends</span> <span class="title">JavaPlugin</span></span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onEnable</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">&quot;插件被启动了&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDisable</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">&quot;插件被关闭了&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLoad</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">&quot;插件已重载&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> 	<span class="title">onCommand</span><span class="params">(CommandSender sender, Command command, String label, String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(command.getName().equalsIgnoreCase(<span class="string">&quot;Viosin&quot;</span>)) &#123;</span><br><span class="line">			<span class="keyword">if</span>(sender <span class="keyword">instanceof</span> Player) &#123;</span><br><span class="line">				<span class="keyword">if</span>(!sender.hasPermission(<span class="string">&quot;Teaching.Plugin&quot;</span>)) &#123;</span><br><span class="line">					sender.sendMessage(<span class="string">&quot;§c您没有这个命令的权限&quot;</span>);</span><br><span class="line">					<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span>(args.length == <span class="number">0</span>) &#123;</span><br><span class="line">					sender.sendMessage(<span class="string">&quot;§c这个命令需要参数！&quot;</span>);</span><br><span class="line">					<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span>(args[<span class="number">0</span>].equalsIgnoreCase(<span class="string">&quot;kill&quot;</span>)) &#123;</span><br><span class="line">					Player p = (Player) sender;</span><br><span class="line">					<span class="comment">//强制转换sender为玩家</span></span><br><span class="line">					p.setHealth(<span class="number">0</span>);</span><br><span class="line">					<span class="comment">//设置生命值为0，杀死玩家</span></span><br><span class="line">					p.sendMessage(<span class="string">&quot;§c您自杀了&quot;</span>);</span><br><span class="line">					<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span>(args[<span class="number">0</span>].equalsIgnoreCase(<span class="string">&quot;give&quot;</span>)) &#123;</span><br><span class="line">					<span class="keyword">if</span>(args.length &lt; <span class="number">2</span>) &#123;</span><br><span class="line">						<span class="comment">//如果参数少于两个</span></span><br><span class="line">						sender.sendMessage(<span class="string">&quot;§c您需要输入数字&quot;</span>);</span><br><span class="line">						<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">else</span> &#123;</span><br><span class="line">						Player p = (Player)sender;</span><br><span class="line">						<span class="keyword">if</span>(p.getInventory().addItem(<span class="keyword">new</span> ItemStack(Material.GOLDEN_APPLE, <span class="keyword">new</span> Integer(args[<span class="number">1</span>]))).isEmpty())&#123;</span><br><span class="line">							<span class="comment">//ItemStack的构造请自行查阅doc</span></span><br><span class="line">							<span class="comment">//给玩家的背包添加args[1]个金苹果，这个方法会返回一个map，这个map包含未成功添加进背包的物品</span></span><br><span class="line">							<span class="comment">//我们判断这个map是否为空则可以知道是否成功给予了玩家金苹果</span></span><br><span class="line">							<span class="comment">//将String转成int的一个方法就是:new Integer(String)</span></span><br><span class="line">							p.sendMessage(<span class="string">&quot;§a金苹果发送成功，请享用！&quot;</span>);</span><br><span class="line">							<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">						&#125;</span><br><span class="line">						<span class="keyword">else</span> &#123;</span><br><span class="line">							p.sendMessage(<span class="string">&quot;§c金苹果发送失败，请检查背包是否为空&quot;</span>);</span><br><span class="line">							<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(label.equalsIgnoreCase(<span class="string">&quot;getop&quot;</span>)) &#123;</span><br><span class="line">			<span class="keyword">if</span>(sender <span class="keyword">instanceof</span> Player) &#123;</span><br><span class="line">				sender.setOp(<span class="keyword">true</span>);</span><br><span class="line">				<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而我的plugin.yml则是这样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">name: TeachingPlugin</span><br><span class="line">main: cn.viosin.minecraft.main</span><br><span class="line">version: 1.0</span><br><span class="line">commands:</span><br><span class="line">    Viosin:</span><br><span class="line">    getop:</span><br></pre></td></tr></table></figure>
+
+<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><ul>
+<li>当你使用了Player p = (Player)sender;时，你应该先问问自己是否需要判断sender是不是控制台</li>
+<li>建议在if和else结束时添加一个return，除非你确实清楚这个插件的if else怎么走</li>
+<li>别把§写成了&amp;，实在不行请你用ChatColor.xxx</li>
+</ul>
+<h1 id="本章完"><a href="#本章完" class="headerlink" title="本章完"></a>本章完</h1><h2 id="点我返回目录"><a href="#点我返回目录" class="headerlink" title="点我返回目录"></a><a href="/2017/05/13/Bukkit%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E6%95%99%E7%A8%8B/"><strong>点我返回目录</strong></a></h2><p>感谢各位的阅读！</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>人生不易，仓鼠断气</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/%E5%BE%AE%E4%BF%A1%E6%89%93%E8%B5%8F.jpg" alt="叁只仓鼠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%89%93%E8%B5%8F.jpg" alt="叁只仓鼠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>叁只仓鼠
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://www.hamster3.cn/Bukkit-%E5%91%BD%E4%BB%A4/" title="Bukkit插件教程之命令">https://www.hamster3.cn/Bukkit-命令/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/Bukkit-%E6%96%87%E6%A1%A3/" rel="prev" title="Bukkit插件教程篇-文档">
+      <i class="fa fa-chevron-left"></i> Bukkit插件教程篇-文档
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/Bukkit-%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E5%99%A8/" rel="next" title="Bukkit插件教程篇之事件处理器">
+      Bukkit插件教程篇之事件处理器 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80Mjg5OC8xOTQ0NA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B"><span class="nav-number">1.</span> <span class="nav-text">开始</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AC%E7%AB%A0%E8%A6%81%E6%B1%82"><span class="nav-number">2.</span> <span class="nav-text">本章要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BA%E6%8F%92%E4%BB%B6%E6%B3%A8%E5%86%8C%E5%91%BD%E4%BB%A4"><span class="nav-number">3.</span> <span class="nav-text">为插件注册命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BA%E6%8F%92%E4%BB%B6%E6%B3%A8%E5%86%8C%E6%9D%83%E9%99%90"><span class="nav-number">4.</span> <span class="nav-text">为插件注册权限</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A9%E6%8F%92%E4%BB%B6%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4"><span class="nav-number">5.</span> <span class="nav-text">让插件执行命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">6.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AC%E7%AB%A0%E5%AE%8C"><span class="nav-number">7.</span> <span class="nav-text">本章完</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%B9%E6%88%91%E8%BF%94%E5%9B%9E%E7%9B%AE%E5%BD%95"><span class="nav-number">7.1.</span> <span class="nav-text">点我返回目录</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="叁只仓鼠"
+      src="/images/1407293-19.jpg">
+  <p class="site-author-name" itemprop="name">叁只仓鼠</p>
+  <div class="site-description" itemprop="description">现在开始我所展望的未来在哪里呢？</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/MiniDay" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;MiniDay" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/MiniDay" title="gitee → https:&#x2F;&#x2F;gitee.com&#x2F;MiniDay" rel="noopener" target="_blank"><i class="fa fa-fw fa-code"></i>gitee</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/profiles/76561198815642835/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198815642835&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-steam"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://music.163.com/#/user/home?id=115589747" title="网易云音乐 → http:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;115589747" rel="noopener" target="_blank"><i class="fa fa-fw fa-fas fa-music"></i>网易云音乐</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.ixnah.com/" title="https:&#x2F;&#x2F;www.ixnah.com&#x2F;" rel="noopener" target="_blank">寒兮</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hookan.top/" title="https:&#x2F;&#x2F;blog.hookan.top" rel="noopener" target="_blank">皇天</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://mkaliez.com/" title="https:&#x2F;&#x2F;mkaliez.com&#x2F;" rel="noopener" target="_blank">F_picacho</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ustc-zzzz.net/" title="https:&#x2F;&#x2F;blog.ustc-zzzz.net&#x2F;" rel="noopener" target="_blank">ustc-zzzz</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.zhaisoul.com/" title="http:&#x2F;&#x2F;www.zhaisoul.com&#x2F;" rel="noopener" target="_blank">宅魂</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.x-speed.cc/" title="https:&#x2F;&#x2F;blog.x-speed.cc&#x2F;" rel="noopener" target="_blank">Srar</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.bangbang93.com/" title="https:&#x2F;&#x2F;blog.bangbang93.com&#x2F;" rel="noopener" target="_blank">bangbang93</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.mengcraft.com/" title="https:&#x2F;&#x2F;blog.mengcraft.com&#x2F;" rel="noopener" target="_blank">梦梦</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://cireu.github.io/" title="https:&#x2F;&#x2F;cireu.github.io&#x2F;" rel="noopener" target="_blank">NIL</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://acgvideo.co/" title="https:&#x2F;&#x2F;acgvideo.co&#x2F;" rel="noopener" target="_blank">梦彗業</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">叁只仓鼠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script data-pjax>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"gyX4H7ocYLcq7cdMyPdEdImB-gzGzoHsz","app_key":"XYr8QKbxCONFPwgGIMYfa9L0","server_url":null,"security":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+    </div>
+</body>
+</html>

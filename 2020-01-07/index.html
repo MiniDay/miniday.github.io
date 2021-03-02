@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1407293-19.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1407293-19.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1407293-19.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hamster3.cn","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="先吐槽一下百度，输入 java包命名规则 搜到的都是一堆垃圾文章。有时间可以自己去试试，看看搜到的东西和 Oracle 官方写的文档差了多远……">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2020.1.7">
+<meta property="og:url" content="https://www.hamster3.cn/2020-01-07/index.html">
+<meta property="og:site_name" content="叁只仓鼠的博客">
+<meta property="og:description" content="先吐槽一下百度，输入 java包命名规则 搜到的都是一堆垃圾文章。有时间可以自己去试试，看看搜到的东西和 Oracle 官方写的文档差了多远……">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-06T19:15:39.000Z">
+<meta property="article:modified_time" content="2021-01-06T21:56:12.371Z">
+<meta property="article:author" content="叁只仓鼠">
+<meta property="article:tag" content="随笔">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.hamster3.cn/2020-01-07/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>2020.1.7 | 叁只仓鼠的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">叁只仓鼠的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-mcstory">
+
+    <a href="/sponsor/mcstory.html" rel="section"><i class="fa fa-fw fa-tasks"></i>mcstory</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hamster3.cn/2020-01-07/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1407293-19.jpg">
+      <meta itemprop="name" content="叁只仓鼠">
+      <meta itemprop="description" content="现在开始我所展望的未来在哪里呢？">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="叁只仓鼠的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2020.1.7
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-01-07 03:15:39 / 修改时间：05:56:12" itemprop="dateCreated datePublished" datetime="2021-01-07T03:15:39+08:00">2021-01-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020-01-07/" class="post-meta-item leancloud_visitors" data-flag-title="2020.1.7" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>先吐槽一下百度，输入 <code>java包命名规则</code> 搜到的都是一堆垃圾文章。<br>有时间可以自己去试试，看看搜到的东西和 Oracle 官方写的文档差了多远……</p>
+<span id="more"></span>
+
+<hr>
+<p>今天想要花点时间去建设自己的服务器（<a target="_blank" rel="noopener" href="https://www.57block.cn/">五彩方块</a>），我准备给它写一些新的插件。<br>花了一点时间构思自己准备写的项目之后，我发现自己之前使用了四年之久的 <a target="_blank" rel="noopener" href="https://gitee.com/MiniDay/HamsterAPI">HamsterAPI</a> 逐渐跟不上自己的需求了。因为它太旧、太老、太难用了！<br>毕竟这个 API 是我四年前开发的，虽然中途一直修修补补凑合着使用，但总归还是保留了许多当年仓鼠不成熟时的痕迹。<br>现在，五彩方块服务器重建，全部插件都将要重新写过，那我为什么不把这套 API 也重写一番呢？<br>正好也能用这套即将开发出来的 API 检验一下现在的自己和四年之前相比到底有什么变化。  </p>
+<p>我琢磨了一下新的 API 应该如何命名，既然它要完全重现，那肯定不能是 HamsterAPI-2.0.0 之类的名称，因为这样原来的 HamsterAPI 就无法被加载了，如果我拿着新的 API 去给其他老板开发插件的话，那么老板装上新的 API 之后，旧 API 无法使用将会导致我给他编写的其他插件全部无法运行…  </p>
+<p>最后我决定使用 57BlockAPI 这个名称，代表了我的服务器自主研发的一套 API 系统。（因为这样子说给别人听的时候会让其他人感觉很厉害）  </p>
+<p>然后我还仔细去研究了一番 Maven 项目的命名规则：</p>
+<blockquote>
+<p>groupId：定义当前Maven项目隶属的实际项目，例如org.sonatype.nexus，此id前半部分org.sonatype代表此项目隶属的组织或公司，后部分代表项目的名称，如果此项目多模块话开发的话就子模块可以分为org.sonatype.nexus.plugins和org.sonatype.nexus.utils等。特别注意的是groupId不应该对应项目隶属的组织或公司，也就是说groupId不能只有org.sonatype而没有nexus。</p>
+<p>例如：我建立一个项目，此项目是此后所有项目的一个总的平台，那么groupId应该是org.jsoft.projectName，projectName是平台的名称，org.jsoft是代表我个人的组织，如果以我所在的浪潮集团来说的话就应该是com.inspur.syncdata。</p>
+<p>artifactId：是构件ID，该元素定义实际项目中的一个Maven项目或者是子模块，如上面官方约定中所说，构建名称必须小写字母，没有其他的特殊字符，推荐使用“实际项目名称－模块名称”的方式定义，例如：spirng-mvn、spring-core等。</p>
+<p>推荐格式：使用实际项目名称作为artifactId的前缀，紧接着为模块名称</p>
+<p>举例：nexus-indexer、spring-mvc、hibernate-c3po……这些id都是以实际项目名称作为前缀，然后接着一个中划线，再紧跟项目的模块名称，默认情况下maven会在artifactId添加version作为最后生成的名称。例如：spirng-mvn-2.0.0.jar</p>
+<p>version：版本号，不要使用日期作为版本，推荐例如这样的命名：2.0、2.0.1、1.3.1，如果为快照版本（SNAPSHOT），那么会自动在版本号后面加上快照的标识。</p>
+</blockquote>
+<p>原地址：<a target="_blank" rel="noopener" href="https://my.oschina.net/u/4412493/blog/4228129">https://my.oschina.net/u/4412493/blog/4228129</a>  </p>
+<p>好吧，这是我在百度上搜索 <code>maven 命名规则</code> 得到的一个比较令人满意的一个结果…  </p>
+<p>所以我给我的这个项目命名 <code>groupId</code> 为 <code>net.57block.bukkit</code>，<code>artifactId</code> 为 <code>api-core</code>（也许还得做一些<code>api-gui</code> 或 <code>api-command</code> 之类的 Maven 项目？）  </p>
+<p>我总感觉有哪里不对劲，我总觉得上面写的这些有什么地方不对……  </p>
+<p>于是我又想去找找 Maven 官方提供的规范文档，在 Google 搜索框中键入 <code>maven naming</code> 之后，我找到了自己想要的几个页面：<a target="_blank" rel="noopener" href="https://maven.apache.org/guides/mini/guide-naming-conventions.html">https://maven.apache.org/guides/mini/guide-naming-conventions.html</a> 和 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3724415/maven-artifact-and-groupid-naming">https://stackoverflow.com/questions/3724415/maven-artifact-and-groupid-naming</a>  </p>
+<p>官方文档中有几点引起了我的注意：</p>
+<blockquote>
+<p>A group ID should follow <a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/specs/jls/se6/html/packages.html#7.7">Java’s package name rules</a>.</p>
+</blockquote>
+<p>翻译：一个 groupId 应该遵循 <a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/specs/jls/se6/html/packages.html#7.7">Java包命名规范</a>。<br>该文档为 Java SE 6 时的规范，也许有些老旧，我使用 Google 搜索找到了 <a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/tutorial/java/package/namingpkgs.html">Java SE 8 时的 Java 包命名规范文档</a>，这两个文档内容上没有什么区别，但第二个链接的文档表述更清晰易懂。</p>
+<p>一般开发人员都大致了解 Java 包命名规范，但其中有三点值得注意：  </p>
+<blockquote>
+<ul>
+<li>If the domain name contains a hyphen, or any other special character not allowed in an identifier (§3.8), convert it into an underscore.</li>
+<li>If any of the resulting package name components are keywords (§3.9) then append underscore to them.</li>
+<li>If any of the resulting package name components start with a digit, or any other character that is not allowed as an initial character of an identifier, have an underscore prefixed to the component.</li>
+</ul>
+</blockquote>
+<p>翻译：</p>
+<ul>
+<li>如果你的包名中包含不允许出现的特殊字符，则将它转换为下划线。</li>
+<li>如果你的包名中出现了关键字等不允许的特殊字符，则在它后面添加下划线。（例如：<code>com.example.int</code> 转换为 <code>com.example.int_</code>）</li>
+<li>如果你的包名以数字之类不允许的字符，则在它前面添加下换线。（例如：<code>net.57block.bukkit</code> 转换为 <code>net._57block.bukkit</code>）</li>
+</ul>
+<p>这样一来，我的 groupId 就得更改为 <code>net._57block.bukkit</code> 了。  </p>
+<p>但是 Maven 文档中还有另一点引起了我的注意：</p>
+<blockquote>
+<p>Maven does not enforce this rule. There are many legacy projects that do not follow this convention and instead use single word group IDs. However, it will be difficult to get a new single word group ID approved for inclusion in the Maven Central repository.</p>
+</blockquote>
+<p>翻译：Maven 并不强制你遵守这个规则。有许多历史遗留的项目都没有遵守该规则，而是使用单个单词作为 groupID。但是，使用单个单词作为 groupID 的新项目将很难被批准加入 Maven Central 仓库。  </p>
+<p>好吧，说白了就是 Maven 并不强制我去遵守他们的命名规定，但如果我按照他们的规定去命名，我的代码将有机会被载入 Maven 中央仓库。  </p>
+<p>可是我要他有何用啊…</p>
+<p>所以我决定不遵守 <code>artifactId</code> 的命名规定，搞一堆 <code>api-core</code>、<code>api-gui</code>、<code>api-command</code> 之类的工件太麻烦了，比起这些我更想要将自己的精力放在代码上。  </p>
+<p>说白了，Apache 也好 Oracle 也好，他们写出这些规定都只是为了尽量减少大家的麻烦，如果大家都能按照约定去命名，那么团队之间（或者项目之间）的合作就减少很多不必要的麻烦。<br>但如果这个规定本身就已经给我带来了麻烦，那么我也应该考虑一下是否可以不去遵守它。  </p>
+<p>再思考一下，Maven 许多约定都是为了 JavaWeb 开发而定的。但 bukkit 插件开发并不像 JavaWeb 一样有成熟的体系。Bukkit 和 Tomcat 也不是同一个东西…<br>我觉得我的项目如此命名并没有什么不妥，即使是其他开发者想要使用我的项目，<code>net._57block.bukkit</code> 和 <code>57BlockAPI</code> 也并不是很难理解。</p>
+<p>最后我决定就使用这个名称了。  </p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>人生不易，仓鼠断气</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/%E5%BE%AE%E4%BF%A1%E6%89%93%E8%B5%8F.jpg" alt="叁只仓鼠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%89%93%E8%B5%8F.jpg" alt="叁只仓鼠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>叁只仓鼠
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://www.hamster3.cn/2020-01-07/" title="2020.1.7">https://www.hamster3.cn/2020-01-07/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag"># 随笔</a>
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E5%AF%B9%E4%BA%8Ekb%E7%9A%84%E7%A0%94%E7%A9%B6%E6%8A%A5%E5%91%8A/" rel="prev" title="对于kb的研究报告">
+      <i class="fa fa-chevron-left"></i> 对于kb的研究报告
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021-03-02/" rel="next" title="使用 VSCode 开发 golang">
+      使用 VSCode 开发 golang <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80Mjg5OC8xOTQ0NA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="叁只仓鼠"
+      src="/images/1407293-19.jpg">
+  <p class="site-author-name" itemprop="name">叁只仓鼠</p>
+  <div class="site-description" itemprop="description">现在开始我所展望的未来在哪里呢？</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/MiniDay" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;MiniDay" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/MiniDay" title="gitee → https:&#x2F;&#x2F;gitee.com&#x2F;MiniDay" rel="noopener" target="_blank"><i class="fa fa-fw fa-code"></i>gitee</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/profiles/76561198815642835/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198815642835&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-steam"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://music.163.com/#/user/home?id=115589747" title="网易云音乐 → http:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;115589747" rel="noopener" target="_blank"><i class="fa fa-fw fa-fas fa-music"></i>网易云音乐</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.ixnah.com/" title="https:&#x2F;&#x2F;www.ixnah.com&#x2F;" rel="noopener" target="_blank">寒兮</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hookan.top/" title="https:&#x2F;&#x2F;blog.hookan.top" rel="noopener" target="_blank">皇天</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://mkaliez.com/" title="https:&#x2F;&#x2F;mkaliez.com&#x2F;" rel="noopener" target="_blank">F_picacho</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ustc-zzzz.net/" title="https:&#x2F;&#x2F;blog.ustc-zzzz.net&#x2F;" rel="noopener" target="_blank">ustc-zzzz</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.zhaisoul.com/" title="http:&#x2F;&#x2F;www.zhaisoul.com&#x2F;" rel="noopener" target="_blank">宅魂</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.x-speed.cc/" title="https:&#x2F;&#x2F;blog.x-speed.cc&#x2F;" rel="noopener" target="_blank">Srar</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.bangbang93.com/" title="https:&#x2F;&#x2F;blog.bangbang93.com&#x2F;" rel="noopener" target="_blank">bangbang93</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.mengcraft.com/" title="https:&#x2F;&#x2F;blog.mengcraft.com&#x2F;" rel="noopener" target="_blank">梦梦</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://cireu.github.io/" title="https:&#x2F;&#x2F;cireu.github.io&#x2F;" rel="noopener" target="_blank">NIL</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://acgvideo.co/" title="https:&#x2F;&#x2F;acgvideo.co&#x2F;" rel="noopener" target="_blank">梦彗業</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">叁只仓鼠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script data-pjax>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"gyX4H7ocYLcq7cdMyPdEdImB-gzGzoHsz","app_key":"XYr8QKbxCONFPwgGIMYfa9L0","server_url":null,"security":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+    </div>
+</body>
+</html>

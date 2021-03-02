@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1407293-19.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1407293-19.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1407293-19.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hamster3.cn","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="简介第一次接触Minecraft已经是七年前的事情了，刚开始玩这个游戏的时候我还什么都不会做，连树都不会撸。但是这个游戏确实让我十分沉迷，它让我体验到了创造的乐趣。我曾经加入过两个服务器，和我的朋友在这个游戏里度过了一段愉快的时光。但它们最后都关服了，于是我决定开始自己做一个服务器。花了些许时间学会了如何启动bukkit服务端，如何去网上搜寻并安装、配置一个插件。我相信能看到这篇文章的人，大都体验">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bukkit插件开发教程">
+<meta property="og:url" content="https://www.hamster3.cn/Bukkit%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="叁只仓鼠的博客">
+<meta property="og:description" content="简介第一次接触Minecraft已经是七年前的事情了，刚开始玩这个游戏的时候我还什么都不会做，连树都不会撸。但是这个游戏确实让我十分沉迷，它让我体验到了创造的乐趣。我曾经加入过两个服务器，和我的朋友在这个游戏里度过了一段愉快的时光。但它们最后都关服了，于是我决定开始自己做一个服务器。花了些许时间学会了如何启动bukkit服务端，如何去网上搜寻并安装、配置一个插件。我相信能看到这篇文章的人，大都体验">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.hamster3.cn/images/bg3.jpg">
+<meta property="article:published_time" content="2017-05-13T14:58:29.000Z">
+<meta property="article:modified_time" content="2020-12-24T09:40:09.364Z">
+<meta property="article:author" content="叁只仓鼠">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Bukkit">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.hamster3.cn/images/bg3.jpg">
+
+<link rel="canonical" href="https://www.hamster3.cn/Bukkit%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E6%95%99%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Bukkit插件开发教程 | 叁只仓鼠的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">叁只仓鼠的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-mcstory">
+
+    <a href="/sponsor/mcstory.html" rel="section"><i class="fa fa-fw fa-tasks"></i>mcstory</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hamster3.cn/Bukkit%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1407293-19.jpg">
+      <meta itemprop="name" content="叁只仓鼠">
+      <meta itemprop="description" content="现在开始我所展望的未来在哪里呢？">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="叁只仓鼠的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Bukkit插件开发教程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-13 22:58:29" itemprop="dateCreated datePublished" datetime="2017-05-13T22:58:29+08:00">2017-05-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-12-24 17:40:09" itemprop="dateModified" datetime="2020-12-24T17:40:09+08:00">2020-12-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/Bukkit%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E6%95%99%E7%A8%8B/" class="post-meta-item leancloud_visitors" data-flag-title="Bukkit插件开发教程" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>第一次接触Minecraft已经是七年前的事情了，刚开始玩这个游戏的时候我还什么都不会做，连树都不会撸。但是这个游戏确实让我十分沉迷，它让我体验到了创造的乐趣。<br>我曾经加入过两个服务器，和我的朋友在这个游戏里度过了一段愉快的时光。但它们最后都关服了，于是我决定开始自己做一个服务器。花了些许时间学会了如何启动bukkit服务端，如何去网上搜寻并安装、配置一个插件。我相信能看到这篇文章的人，大都体验过那种创造出一个世界的成就感。<br>只是，那时的我仍然不能满足于当下。我希望我的服务器能够更加有特色，因此我不得不去寻找一些网上不太常见的插件，来让我的服务器显得更加与众不同。再后来我转念一想：“何不自己去学着写插件呢？”<br>而后经历了很长一段时间，一直都在技术上摸索着，四处碰壁，直到今天也仍是如此。我感受过在未知的领域中探索的那种虚无感，也深知要想在这条路上走的长远就必须去挑战困难。因此我写下这篇教程，意图在一个大的范围内指点方向，但是更细枝末节的地方则要求读者必须学会独立解决。  </p>
+<p>即使现在已经很少再去玩这款游戏，但我依旧是一名创造者。  </p>
+<p><strong>你在这里学到的Java知识也许不能用来应聘企业开发人员，但是拿来写bukkit插件绝对够用！</strong><br><strong>如果您在我的教程中发现了任何问题，请立即与我联系，我将会在最短的时间内修正它！</strong><br><strong>最后更新于：</strong>2019年6月18日04:57:52</p>
+<p><img data-src="/images/bg3.jpg"><br>（我当初为什么要作死开这么个巨坑呢……）</p>
+<span id="more"></span>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=36103287&auto=1&height=66"></iframe>
+
+<p><strong>↑不来一首BGM吗？</strong></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在教程开始之前，我希望同学们能够善于思考，遇到问题多想一想“为什么？”，而不要只追求答案“怎么做？”，虽然答案也同样很重要。</p>
+<p>搜索引擎是一个强大的工具，请不要忽视它的力量，它往往能在最短的时间内给你带来你想要的答案，前提是你要知道如何使用它。<br>举个例子：<strong>老师给你布置了一个作业，要求程序接受三个数字输入，并输出这三个数字的平均值</strong><br>你现在知道怎么让你的程序存储三个数字（<code>int a,b,c;</code>），也知道怎么求他们的平均值（<code>int avg = (a+b+c) / 3.0;</code>），更清楚怎么输出计算后的结果（<code>System.out.println(avg);</code>）</p>
+<hr>
+<p>你唯一的问题就是，不清楚自己应该如何从外部读取这三个数字。<br>有人会选择去寻找帮助：“大佬，怎么让程序输入三个数字输出他们的平均数啊？”<br>也有人清晰地知道自己想要什么：“大佬，怎么让程序读取外部输入的数字啊？”<br>也有人决定不去麻烦别人：百度一下：<a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=Java%E8%BE%93%E5%85%A5%E6%95%B0%E5%AD%97">Java 输入数字</a><br>最终他筛选资料，找到了<a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/247366846.html">这一篇回答</a><br>于是他<strong>独立的完成了自己的作业</strong></p>
+<hr>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;请输入三个数字: &quot;</span>);</span><br><span class="line">        Scanner sc = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        <span class="keyword">int</span> a,b,c;</span><br><span class="line">        a = sc.nextInt();</span><br><span class="line">        b = sc.nextInt();</span><br><span class="line">        c = sc.nextInt();</span><br><span class="line">		<span class="keyword">int</span> avg = (a+b+c) / <span class="number">3.0</span>;</span><br><span class="line">        System.out.println(avg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然，这只是一个简单的例子。实际情况也许更加复杂。但是不论遇到什么情况，我希望大家都能够独立思考，发现自己的问题，并通过自己的途径去解决它，不要总是一味地去抱大佬的腿。（会被嫌弃的<br>至此，我们的教程正式开始。</p>
+<h1 id="准备工作环境"><a href="#准备工作环境" class="headerlink" title="准备工作环境"></a>准备工作环境</h1><p>在正式编写代码之前，我们可能需要为电脑做一些准备工作：</p>
+<h2 id="下载安装并配置JDK"><a href="#下载安装并配置JDK" class="headerlink" title="下载安装并配置JDK"></a>下载安装并配置JDK</h2><p>请百度： <a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html"><strong>“jdk下载”</strong></a><br>以及： <a target="_blank" rel="noopener" href="http://jingyan.baidu.com/article/6dad5075d1dc40a123e36ea3.html"><strong>“jdk环境变量配置”</strong></a></p>
+<h2 id="准备IDE"><a href="#准备IDE" class="headerlink" title="准备IDE"></a>准备IDE</h2><p>集成开发环境（Integrated Development Environment）简称IDE，虽然听起来很高大上，但其实只不过是一个辅助你编写代码的工具而已。一般IDE都有代码纠错，代码修正，代码补全，自动编译等等功能，可以为你提高不少工作效率。让你免去了那些复杂的文字处理问题，把工作重心放在编码本身，因为这才是我们需要处理的主要工作。<br>用于写Java的IDE有许多，其中比较出名的有三个：<br><a target="_blank" rel="noopener" href="https://www.eclipse.org/downloads/eclipse-packages/">Eclipse</a>：Eclipse是一个十分强大的由开源社区提供的IDE，自带官方中文，这个中文需要自己安装中文插件包，比较麻烦……<br><a target="_blank" rel="noopener" href="https://netbeans.org/">NetBeans</a>：由Oracle官方支持的IDE，功能上比Eclipse略逊一筹，但是自带官方中文，一键安装之后打开即可看到中文界面。（而且国内大多数计算机考试都是以NetBeans为官方指定编译器<br><a target="_blank" rel="noopener" href="https://www.jetbrains.com/idea/"><strong>IntelliJ IDEA</strong></a>：人类文明中最强大的Java IDE，没有之一（不接受反驳）。缺点就是没有官方中文，在使用熟练了之后你就会发现IDEA真正的实力。<br>（本教程使用IDEA进行代码编写工作，除此之外不讲解IDE有关的任何问题</p>
+<h1 id="Java语言基础"><a href="#Java语言基础" class="headerlink" title="Java语言基础"></a>Java语言基础</h1><ul>
+<li> <a href="/2017/05/14/Java%E5%9F%BA%E7%A1%80-%E7%AC%AC%E4%B8%80%E4%B8%AAJava%E7%A8%8B%E5%BA%8F/">第一个Java程序</a></li>
+<li> <a href="/2017/05/14/Java%E5%9F%BA%E7%A1%80-%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE/">变量和基本数据</a></li>
+<li> <a href="/2017/05/24/Java%E5%9F%BA%E7%A1%80-%E6%9D%A1%E4%BB%B6%E5%92%8C%E5%BE%AA%E7%8E%AF/">条件和循环</a></li>
+<li> <a href="/2017/07/09/Java%E5%9F%BA%E7%A1%80-%E6%95%B0%E7%BB%84%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/">字符串、数组</a></li>
+</ul>
+<h1 id="Java语言初级内容"><a href="#Java语言初级内容" class="headerlink" title="Java语言初级内容"></a>Java语言初级内容</h1><ul>
+<li> <a href="/2017/07/16/Java%E8%BF%9B%E9%98%B6-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">什么是面向对象</a></li>
+<li> <a href="/2017/07/31/Java%E8%BF%9B%E9%98%B6-%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1/">类和对象</a></li>
+<li> <a href="/2017/09/24/Java%E8%BF%9B%E9%98%B6-%E7%BB%A7%E6%89%BF%E6%8E%A5%E5%8F%A3%E4%B8%8E%E5%A4%9A%E6%80%81/">继承、接口、多态</a></li>
+<li> 类的高级特征</li>
+<li> 异常处理</li>
+<li> I/O（输入输出）</li>
+</ul>
+<h1 id="Java语言高级进阶"><a href="#Java语言高级进阶" class="headerlink" title="Java语言高级进阶"></a>Java语言高级进阶</h1><ul>
+<li> 多线程</li>
+<li> 反射</li>
+<li> 枚举与泛型</li>
+<li> 网络通信</li>
+</ul>
+<h1 id="Java语言其他资源"><a href="#Java语言其他资源" class="headerlink" title="Java语言其他资源"></a>Java语言其他资源</h1><p><a target="_blank" rel="noopener" href="https://mouse0w0.github.io/2018/10/04/Programming-Principles/">编程原则</a><br><a target="_blank" rel="noopener" href="https://mouse0w0.github.io/2018/12/02/Introduction-to-Nashorn/">Nashorn的使用方法</a></p>
+<p>你可以查看 <a href="/2020/08/02/%E6%9E%84%E5%BB%BAspigot/"><strong>这篇文章</strong></a> 来了解如何获得 spigot/craftbukkit 服务端核心文件</p>
+<h1 id="Bukkit插件基础"><a href="#Bukkit插件基础" class="headerlink" title="Bukkit插件基础"></a>Bukkit插件基础</h1><ul>
+<li> <a href="/2017/05/15/Bukkit-%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%8F%92%E4%BB%B6/">第一个插件</a></li>
+<li> <a href="/2017/05/16/Bukkit-%E6%96%87%E6%A1%A3/">doc文档</a></li>
+<li> <a href="/2017/05/17/Bukkit-%E5%91%BD%E4%BB%A4/">命令</a></li>
+<li> <a href="/2017/05/20/Bukkit-%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E5%99%A8/">事件处理器</a></li>
+<li> <a href="/2017/05/20/Bukkit-%E5%A4%84%E7%90%86%E6%8A%A5%E9%94%99/">错误处理</a></li>
+<li> <a href="/2017/05/21/Bukkit-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">配置文件</a><h1 id="Bukkit插件进阶"><a href="#Bukkit插件进阶" class="headerlink" title="Bukkit插件进阶"></a>Bukkit插件进阶</h1></li>
+<li> <a href="/2017/05/22/Bukkit-%E5%A4%9A%E7%BA%BF%E7%A8%8B/">BukkitRunnable</a></li>
+</ul>
+<p><a href="/2017/07/13/%E4%BD%9C%E4%B8%9A%E7%AD%94%E6%A1%88/"><strong>练习答案</strong></a></p>
+<h1 id="其他资源"><a href="#其他资源" class="headerlink" title="其他资源"></a>其他资源</h1><p><a target="_blank" rel="noopener" href="http://www.mcbbs.net/thread-782974-1-1.html">ItemMeta 的使用说明</a><br><a target="_blank" rel="noopener" href="http://www.mcbbs.net/thread-568714-1-1.html">ProtocolLib 通信控制</a><br><a target="_blank" rel="noopener" href="https://hub.spigotmc.org/javadocs/spigot/index.html?overview-summary.html">Spigot doc</a><br><a target="_blank" rel="noopener" href="https://bukkit.windit.net/javadoc/">Bukkit doc 中文版</a><br><a target="_blank" rel="noopener" href="http://ci.dmulloy2.net/job/ProtocolLib/javadoc/overview-summary.html">ProtocolLib doc</a><br><a target="_blank" rel="noopener" href="http://milkbowl.github.io/VaultAPI/">Vault doc</a></p>
+<h1 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h1><p>感谢各位的阅读！</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>人生不易，仓鼠断气</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/%E5%BE%AE%E4%BF%A1%E6%89%93%E8%B5%8F.jpg" alt="叁只仓鼠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%89%93%E8%B5%8F.jpg" alt="叁只仓鼠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>叁只仓鼠
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://www.hamster3.cn/Bukkit%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E6%95%99%E7%A8%8B/" title="Bukkit插件开发教程">https://www.hamster3.cn/Bukkit插件开发教程/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/Bukkit/" rel="tag"># Bukkit</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/Java%E5%9F%BA%E7%A1%80-%E7%AC%AC%E4%B8%80%E4%B8%AAJava%E7%A8%8B%E5%BA%8F/" rel="next" title="Java基础-第一个Java程序">
+      Java基础-第一个Java程序 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80Mjg5OC8xOTQ0NA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83"><span class="nav-number">3.</span> <span class="nav-text">准备工作环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E5%B9%B6%E9%85%8D%E7%BD%AEJDK"><span class="nav-number">3.1.</span> <span class="nav-text">下载安装并配置JDK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87IDE"><span class="nav-number">3.2.</span> <span class="nav-text">准备IDE</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80"><span class="nav-number">4.</span> <span class="nav-text">Java语言基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E8%AF%AD%E8%A8%80%E5%88%9D%E7%BA%A7%E5%86%85%E5%AE%B9"><span class="nav-number">5.</span> <span class="nav-text">Java语言初级内容</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E8%AF%AD%E8%A8%80%E9%AB%98%E7%BA%A7%E8%BF%9B%E9%98%B6"><span class="nav-number">6.</span> <span class="nav-text">Java语言高级进阶</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E8%AF%AD%E8%A8%80%E5%85%B6%E4%BB%96%E8%B5%84%E6%BA%90"><span class="nav-number">7.</span> <span class="nav-text">Java语言其他资源</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Bukkit%E6%8F%92%E4%BB%B6%E5%9F%BA%E7%A1%80"><span class="nav-number">8.</span> <span class="nav-text">Bukkit插件基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Bukkit%E6%8F%92%E4%BB%B6%E8%BF%9B%E9%98%B6"><span class="nav-number">9.</span> <span class="nav-text">Bukkit插件进阶</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E8%B5%84%E6%BA%90"><span class="nav-number">10.</span> <span class="nav-text">其他资源</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F"><span class="nav-number">11.</span> <span class="nav-text">结束</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="叁只仓鼠"
+      src="/images/1407293-19.jpg">
+  <p class="site-author-name" itemprop="name">叁只仓鼠</p>
+  <div class="site-description" itemprop="description">现在开始我所展望的未来在哪里呢？</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/MiniDay" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;MiniDay" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/MiniDay" title="gitee → https:&#x2F;&#x2F;gitee.com&#x2F;MiniDay" rel="noopener" target="_blank"><i class="fa fa-fw fa-code"></i>gitee</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/profiles/76561198815642835/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198815642835&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-steam"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://music.163.com/#/user/home?id=115589747" title="网易云音乐 → http:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;115589747" rel="noopener" target="_blank"><i class="fa fa-fw fa-fas fa-music"></i>网易云音乐</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.ixnah.com/" title="https:&#x2F;&#x2F;www.ixnah.com&#x2F;" rel="noopener" target="_blank">寒兮</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hookan.top/" title="https:&#x2F;&#x2F;blog.hookan.top" rel="noopener" target="_blank">皇天</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://mkaliez.com/" title="https:&#x2F;&#x2F;mkaliez.com&#x2F;" rel="noopener" target="_blank">F_picacho</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ustc-zzzz.net/" title="https:&#x2F;&#x2F;blog.ustc-zzzz.net&#x2F;" rel="noopener" target="_blank">ustc-zzzz</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.zhaisoul.com/" title="http:&#x2F;&#x2F;www.zhaisoul.com&#x2F;" rel="noopener" target="_blank">宅魂</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.x-speed.cc/" title="https:&#x2F;&#x2F;blog.x-speed.cc&#x2F;" rel="noopener" target="_blank">Srar</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.bangbang93.com/" title="https:&#x2F;&#x2F;blog.bangbang93.com&#x2F;" rel="noopener" target="_blank">bangbang93</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.mengcraft.com/" title="https:&#x2F;&#x2F;blog.mengcraft.com&#x2F;" rel="noopener" target="_blank">梦梦</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://cireu.github.io/" title="https:&#x2F;&#x2F;cireu.github.io&#x2F;" rel="noopener" target="_blank">NIL</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://acgvideo.co/" title="https:&#x2F;&#x2F;acgvideo.co&#x2F;" rel="noopener" target="_blank">梦彗業</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">叁只仓鼠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script data-pjax>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"gyX4H7ocYLcq7cdMyPdEdImB-gzGzoHsz","app_key":"XYr8QKbxCONFPwgGIMYfa9L0","server_url":null,"security":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+    </div>
+</body>
+</html>

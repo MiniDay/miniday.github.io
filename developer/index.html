@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1407293-19.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1407293-19.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1407293-19.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hamster3.cn","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="前言Bukkit是Minecraft中最受欢迎的服务端软件之一，其中最重要的一个功能就是允许服主们自行添加插件来让自己的服务器更具有特色。现如今已有数量可观的插件发布在spigot&#x2F;mcbbs等各大论坛。但是如果论坛上流行的那些插件已经无法满足你的需求，那么你也可以给予我一些合适的报酬，我会按照您的意愿编写出合适的服务器插件。 基本原则如果您不希望我们的合作过程变得复杂而低效的话，那么您至少需要">
+<meta property="og:type" content="website">
+<meta property="og:title" content="插件开发">
+<meta property="og:url" content="https://www.hamster3.cn/developer/index.html">
+<meta property="og:site_name" content="叁只仓鼠的博客">
+<meta property="og:description" content="前言Bukkit是Minecraft中最受欢迎的服务端软件之一，其中最重要的一个功能就是允许服主们自行添加插件来让自己的服务器更具有特色。现如今已有数量可观的插件发布在spigot&#x2F;mcbbs等各大论坛。但是如果论坛上流行的那些插件已经无法满足你的需求，那么你也可以给予我一些合适的报酬，我会按照您的意愿编写出合适的服务器插件。 基本原则如果您不希望我们的合作过程变得复杂而低效的话，那么您至少需要">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.hamster3.cn/images/bg5.jpg">
+<meta property="article:published_time" content="2019-06-30T17:12:03.000Z">
+<meta property="article:modified_time" content="2020-05-24T14:25:28.211Z">
+<meta property="article:author" content="叁只仓鼠">
+<meta property="article:tag" content="叁只仓鼠">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.hamster3.cn/images/bg5.jpg">
+
+<link rel="canonical" href="https://www.hamster3.cn/developer/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>插件开发 | 叁只仓鼠的博客
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">叁只仓鼠的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-mcstory">
+
+    <a href="/sponsor/mcstory.html" rel="section"><i class="fa fa-fw fa-tasks"></i>mcstory</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">插件开发
+</h1>
+
+<div class="post-meta">
+  
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+          <p><img data-src="/images/bg5.jpg" alt="bg2"></p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>Bukkit是Minecraft中最受欢迎的服务端软件之一，其中最重要的一个功能就是允许服主们自行添加插件来让自己的服务器更具有特色。现如今已有数量可观的插件发布在spigot/mcbbs等各大论坛。<br>但是如果论坛上流行的那些插件已经无法满足你的需求，那么你也可以给予我一些<strong>合适的报酬</strong>，我会按照您的意愿编写出合适的服务器插件。</p>
+<h3 id="基本原则"><a href="#基本原则" class="headerlink" title="基本原则"></a>基本原则</h3><p>如果您不希望我们的合作过程变得复杂而低效的话，那么您至少需要先了解一下我的代码开发原则。</p>
+<ol>
+<li>插件定制50起步</li>
+<li>一年内BUG修复免费</li>
+<li>一经付款，概不退还</li>
+<li>添加/修改功能需要付费</li>
+<li>不接受魔改代码混淆的插件</li>
+<li>凡是涉及到数据库存储的，价格不低于200</li>
+<li>凡是涉及到Minecraft通信协议（ProtocolLib也算）的价格不低于300</li>
+<li>凡是需要操作NMS（即调用Minecraft服务器原生代码）的价格不低于500</li>
+</ol>
+<h3 id="插件开发"><a href="#插件开发" class="headerlink" title="插件开发"></a>插件开发</h3><p>如果您需要我从零开始为您的服务器打造一款全新的插件，那么您可以选择这项服务。</p>
+<p>请将您的插件需求写成一份word文档交给我。（如果你觉得不需要图片解释，则可以直接使用txt文本文档）<br>其中需要有以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">插件名称：</span><br><span class="line">服务端版本：</span><br><span class="line">是否需要跨服保存数据：</span><br><span class="line">插件简介：一句话简介插件主要功能，或者你想要用这个插件完成什么任务。</span><br><span class="line"></span><br><span class="line">插件需要的功能：（越详细越好，不用怕仓鼠理解不了）</span><br><span class="line">如果涉及到GUI请把想要的GUI样式用箱子摆出来截图放在word文档里</span><br><span class="line"></span><br><span class="line">插件需要的命令：（最好写一下这个命令对应什么功能，不需要则填无）</span><br><span class="line">插件需要的权限：（最好写一下这个权限对应什么功能，不需要则填无）</span><br><span class="line"></span><br><span class="line">插件需要的PlaceholderAPI变量：（最好写一下这个变量显示的对象，不需要则填无）</span><br><span class="line"></span><br><span class="line">想要的config.yml自定义内容：请另起一个config.yml文件发给我</span><br><span class="line"></span><br><span class="line">时限：</span><br><span class="line">报价：</span><br></pre></td></tr></table></figure>
+<p>（需要跨服的插件需要使用MySQL等数据库支持，一般价格会比普通的插件高50~150<br>需求报告要求做到最详细的描述，若有任何不确定的内容，欢迎随时与我联系。</p>
+<h3 id="插件魔改"><a href="#插件魔改" class="headerlink" title="插件魔改"></a>插件魔改</h3><p>如果您在其他地方拿到了一款插件，虽然它大体满足你的需求，但仍有一些细小的瑕疵或缺少某些必要的功能，那么你可以选择魔改插件。</p>
+<p>首先请提供原插件以及插件的前置（发布地址也可以），或者源代码。<br>以及需要一份文档，内容要求如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">服务端版本：</span><br><span class="line">插件介绍：介绍插件主要功能，或者这个插件原本能完成什么任务。</span><br><span class="line">魔改要求：简介魔改的主要内容，或者你预期魔改后插件将要完成什么任务。</span><br><span class="line"></span><br><span class="line">时限：</span><br><span class="line">报价：</span><br></pre></td></tr></table></figure>
+<p><strong>如果原插件十分复杂或代码被混淆，我可能会提出直接重写的要求。</strong></p>
+<h3 id="付款方式"><a href="#付款方式" class="headerlink" title="付款方式"></a>付款方式</h3><p><strong>报价一般由老板先提出，然后我再根据提出的报价决定要不要做。</strong></p>
+<p><strong>请不要问我“你觉得报价多少合适？”之类的问题</strong><br><strong>请不要问我“你觉得报价多少合适？”之类的问题</strong><br><strong>请不要问我“你觉得报价多少合适？”之类的问题</strong>  </p>
+<p>我只决定做不做。</p>
+<p>项目完工后，我会将文件发送给你，在您测试无问题之再给我转账，转账方式支持 [<strong>支付宝</strong>/<strong>微信</strong>]。</p>
+<h3 id="其他信息"><a href="#其他信息" class="headerlink" title="其他信息"></a>其他信息</h3><ol>
+<li>付款后允许您全权使用插件。</li>
+<li>付款后允许您将插件免费授予他人使用。</li>
+<li>若您需要将插件分享至MCBBS等公共论坛，请声明该插件作者为叁只仓鼠。</li>
+<li>如果您不主动要求，将不会提供源代码，所有插件源码将由仓鼠保管。</li>
+<li>过于简单的代码随时可能被删除，复杂功能的插件会被上传至代码托管服务器。</li>
+</ol>
+<h3 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h3><p>QQ: 767089578</p>
+<p><strong>希望您能在一次合作之后在此留下评论。无论好坏，至少能够作为一条给其他服主的建议。</strong></p>
+
+      </div>
+      
+      
+      
+    </div>
+    
+
+    
+    
+    
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80Mjg5OC8xOTQ0NA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%8E%9F%E5%88%99"><span class="nav-number">2.</span> <span class="nav-text">基本原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91"><span class="nav-number">3.</span> <span class="nav-text">插件开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%E9%AD%94%E6%94%B9"><span class="nav-number">4.</span> <span class="nav-text">插件魔改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%98%E6%AC%BE%E6%96%B9%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">付款方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E4%BF%A1%E6%81%AF"><span class="nav-number">6.</span> <span class="nav-text">其他信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F"><span class="nav-number">7.</span> <span class="nav-text">联系方式</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="叁只仓鼠"
+      src="/images/1407293-19.jpg">
+  <p class="site-author-name" itemprop="name">叁只仓鼠</p>
+  <div class="site-description" itemprop="description">现在开始我所展望的未来在哪里呢？</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/MiniDay" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;MiniDay" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/MiniDay" title="gitee → https:&#x2F;&#x2F;gitee.com&#x2F;MiniDay" rel="noopener" target="_blank"><i class="fa fa-fw fa-code"></i>gitee</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/profiles/76561198815642835/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198815642835&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-steam"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://music.163.com/#/user/home?id=115589747" title="网易云音乐 → http:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;115589747" rel="noopener" target="_blank"><i class="fa fa-fw fa-fas fa-music"></i>网易云音乐</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.ixnah.com/" title="https:&#x2F;&#x2F;www.ixnah.com&#x2F;" rel="noopener" target="_blank">寒兮</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hookan.top/" title="https:&#x2F;&#x2F;blog.hookan.top" rel="noopener" target="_blank">皇天</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://mkaliez.com/" title="https:&#x2F;&#x2F;mkaliez.com&#x2F;" rel="noopener" target="_blank">F_picacho</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ustc-zzzz.net/" title="https:&#x2F;&#x2F;blog.ustc-zzzz.net&#x2F;" rel="noopener" target="_blank">ustc-zzzz</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.zhaisoul.com/" title="http:&#x2F;&#x2F;www.zhaisoul.com&#x2F;" rel="noopener" target="_blank">宅魂</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.x-speed.cc/" title="https:&#x2F;&#x2F;blog.x-speed.cc&#x2F;" rel="noopener" target="_blank">Srar</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.bangbang93.com/" title="https:&#x2F;&#x2F;blog.bangbang93.com&#x2F;" rel="noopener" target="_blank">bangbang93</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.mengcraft.com/" title="https:&#x2F;&#x2F;blog.mengcraft.com&#x2F;" rel="noopener" target="_blank">梦梦</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://cireu.github.io/" title="https:&#x2F;&#x2F;cireu.github.io&#x2F;" rel="noopener" target="_blank">NIL</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://acgvideo.co/" title="https:&#x2F;&#x2F;acgvideo.co&#x2F;" rel="noopener" target="_blank">梦彗業</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">叁只仓鼠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script data-pjax>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"gyX4H7ocYLcq7cdMyPdEdImB-gzGzoHsz","app_key":"XYr8QKbxCONFPwgGIMYfa9L0","server_url":null,"security":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+    </div>
+</body>
+</html>

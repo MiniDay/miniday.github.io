@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1407293-19.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1407293-19.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1407293-19.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hamster3.cn","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="开始有当过服主的同学应该都知道，很多插件在运行后都会在插件文件夹下生成一个新文件夹，这个文件夹下一般会有一个config.yml，我们可以修改这个config.yml来自定义插件的一些功能。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bukkit插件教程篇之配置文件">
+<meta property="og:url" content="https://www.hamster3.cn/Bukkit-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/index.html">
+<meta property="og:site_name" content="叁只仓鼠的博客">
+<meta property="og:description" content="开始有当过服主的同学应该都知道，很多插件在运行后都会在插件文件夹下生成一个新文件夹，这个文件夹下一般会有一个config.yml，我们可以修改这个config.yml来自定义插件的一些功能。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-05-21T09:25:04.000Z">
+<meta property="article:modified_time" content="2019-08-31T10:21:21.823Z">
+<meta property="article:author" content="叁只仓鼠">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.hamster3.cn/Bukkit-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Bukkit插件教程篇之配置文件 | 叁只仓鼠的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">叁只仓鼠的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-mcstory">
+
+    <a href="/sponsor/mcstory.html" rel="section"><i class="fa fa-fw fa-tasks"></i>mcstory</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hamster3.cn/Bukkit-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1407293-19.jpg">
+      <meta itemprop="name" content="叁只仓鼠">
+      <meta itemprop="description" content="现在开始我所展望的未来在哪里呢？">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="叁只仓鼠的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Bukkit插件教程篇之配置文件
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-21 17:25:04" itemprop="dateCreated datePublished" datetime="2017-05-21T17:25:04+08:00">2017-05-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-08-31 18:21:21" itemprop="dateModified" datetime="2019-08-31T18:21:21+08:00">2019-08-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/Java/Bukkit/" itemprop="url" rel="index"><span itemprop="name">Bukkit</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/Bukkit-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" class="post-meta-item leancloud_visitors" data-flag-title="Bukkit插件教程篇之配置文件" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><p>有当过服主的同学应该都知道，很多插件在运行后都会在插件文件夹下生成一个新文件夹，这个文件夹下一般会有一个config.yml，我们可以修改这个config.yml来自定义插件的一些功能。</p>
+<span id="more"></span>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=36103287&auto=0&height=66"></iframe>
+**↑不来一首BGM吗？**
+
+<h1 id="本章要求"><a href="#本章要求" class="headerlink" title="本章要求"></a>本章要求</h1><ul>
+<li>学会创建config.yml</li>
+<li>学会操作config.yml中的数据</li>
+<li>学会使用其他配置文件</li>
+</ul>
+<h1 id="创建config"><a href="#创建config" class="headerlink" title="创建config"></a>创建config</h1><p>先要像添加plugin.yml一样在插件根目录添加一个config.yml：右键src –&gt; [新建] –&gt; [文件]，然后在文件名上填写config.yml，点击完成。<br>这样我们的插件就有了config。</p>
+<h1 id="生成并读取config"><a href="#生成并读取config" class="headerlink" title="生成并读取config"></a>生成并读取config</h1><p>一般我们使用JavaPlugin下的getConfig()方法可以获取到一个FileConfiguration实例，这个实例就是这个插件的config，我们可以使用这个实例里的一些方法来获取一些config里的数据。<br>但是，在使用这个方法之前，我们要先让插件加载config，不然这个插件返回的将是一个空指针！加载config也很简单：使用JavaPlugin下的    reloadConfig()方法即可让该插件加载config.yml。然后我们就可以用getConfig()获取一个config实例了。<br>不过需要注意的是：reloadConfig()是加载<code>/服务端根目录/plugin/插件名/config.yml</code>文件的，如果这个文件不存在，这个方法就肯定不能用了，说了这么多，我只是想告诉你：在使用reloadConfig()之前应该先判断config.yml是否存在。如果不存在该怎么办呢？JavaPlugin类里还有一个方法saveDefaultConfig()，可以把插件根目录（src）里的config.yml保存到<code>/服务端根目录/plugin/插件名/config.yml</code>，也就是说，我们在使用reloadConfig()之前，要先判断config.yml是否存在，如果不存在要先使用saveDefaultConfig()方法保存一个再调用reloadConfig方法。<br>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">main</span> <span class="keyword">extends</span> <span class="title">JavaPlugin</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> FileConfiguration config;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onEnable</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		Bukkit.getPluginManager().registerEvents(<span class="keyword">new</span> BlockPlaceListener(), <span class="keyword">this</span>);</span><br><span class="line">		System.out.println(<span class="string">&quot;插件被启动了&quot;</span>);</span><br><span class="line">		<span class="comment">//如果config.yml不存在则保存插件根目录下的config.yml过去</span></span><br><span class="line">		<span class="keyword">this</span>.saveDefaultConfig();</span><br><span class="line">		<span class="comment">//加载config.yml</span></span><br><span class="line">		<span class="keyword">this</span>.reloadConfig();</span><br><span class="line">		<span class="comment">//获取FileConfiguration实例并保存</span></span><br><span class="line">		<span class="keyword">this</span>.config = <span class="keyword">this</span>.getConfig();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样我们就获取到FileConfiguration实例了，我们可以操作一些config里的数据了。</p>
+<h1 id="使用config"><a href="#使用config" class="headerlink" title="使用config"></a>使用config</h1><p>在这之前也许你应该先去学习一下YAML语法，但是如果你抽不出那么多时间去学也没关系，我先来教你一些最基础的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Message:</span><br><span class="line">  #治疗信息</span><br><span class="line">  HealMessage: &quot;&amp;a你已被治疗！&quot;</span><br><span class="line">  HealthFullMessage: &quot;&amp;c你已经满血！&quot;</span><br><span class="line">  #帮助信息</span><br><span class="line">  HelpMessage:</span><br><span class="line">    - &quot;&amp;f&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;</span><br><span class="line">    - &quot;&amp;aViosin教学插件&quot;</span><br><span class="line">    - &quot;&amp;a帮助信息：&quot;</span><br><span class="line">    - &quot;&amp;b&#x2F;Viosin give [数量]&quot;</span><br><span class="line">    - &quot;&amp;d获取金苹果&quot;</span><br><span class="line">    - &quot;&amp;b&#x2F;Viosin kill&quot;</span><br><span class="line">    - &quot;&amp;d自杀&quot;</span><br><span class="line">    - &quot;&amp;b&#x2F;getop&quot;</span><br><span class="line">    - &quot;&amp;d获取OP权限&quot;</span><br><span class="line">    - &quot;&amp;f&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;</span><br><span class="line">Numbers:</span><br><span class="line">  StartTimes: 0</span><br><span class="line">  TYSB: 1</span><br><span class="line">Version: 1</span><br></pre></td></tr></table></figure>
+<p>首先，如你所见，YAML中注释用的是符号“#”而不是双斜杠。<br>然后是FileConfiguration类中的getXXX方法：<br>getString(路径);<br>getInt(路径)<br>getStringList(路径);<br>其他getXXX方法请翻阅doc，路径怎么填写下面用一个例子解释。<br>我们之前写的插件，玩家放置方块后被治疗并没有提示，这样可能会引起玩家的不适，于是我们尝试给它添加一行输出信息。但是我又想在config中保存这个信息，不然我们每次想要更改信息的时候都要重新编译插件，贼tm麻烦！<br>首先我们在监听器中存两个全局变量<code>String Healmessage;</code>和<code>String HealthFullMessage;</code>，然后我们写一个构造方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BlockPlaceListener</span> <span class="keyword">implements</span> <span class="title">Listener</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String Healmessage;</span><br><span class="line">	<span class="keyword">private</span> String HealthFullMessage;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">BlockPlaceListener</span><span class="params">(String Healmessage, String HealthFullMessage)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.Healmessage = Healmessage;</span><br><span class="line">		<span class="keyword">this</span>.HealthFullMessage = HealthFullMessage;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@SuppressWarnings(&quot;deprecation&quot;)</span></span><br><span class="line">	<span class="meta">@EventHandler</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">BlockPlaceHandler</span><span class="params">(BlockPlaceEvent e)</span> </span>&#123;</span><br><span class="line">		Player p = e.getPlayer();		<span class="comment">//获取触发该事件的玩家</span></span><br><span class="line">		<span class="keyword">double</span> health = p.getHealth();	<span class="comment">//获取该玩家的生命值</span></span><br><span class="line">		<span class="keyword">if</span>(health &lt; p.getMaxHealth()) &#123;</span><br><span class="line">			p.setHealth(++health);		<span class="comment">//让该玩家的生命值+1</span></span><br><span class="line">			p.sendMessage(<span class="keyword">this</span>.Healmessage);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span>&#123;</span><br><span class="line">			p.sendMessage(<span class="keyword">this</span>.HealthFullMessage);</span><br><span class="line">		&#125;</span><br><span class="line">		e.setCancelled(<span class="keyword">true</span>);			<span class="comment">//取消这个事件</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码应该很容易看懂，这里我就不解释了。<br>然后我们回到main类里修改<code>Bukkit.getPluginManager().registerEvents(new BlockPlaceListener(), this);</code>这一行<br>修改成这样:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String Healmessage = <span class="keyword">this</span>.config.getString(<span class="string">&quot;Message.HealMessage&quot;</span>).replace(<span class="string">&quot;&amp;&quot;</span>, <span class="string">&quot;§&quot;</span>);</span><br><span class="line"><span class="comment">//读取config文件中的Message目录下的HealMessage字符串</span></span><br><span class="line">String HealthFullMessage = <span class="keyword">this</span>.config.getString(<span class="string">&quot;Message.HealthFullMessage&quot;</span>).replace(<span class="string">&quot;&amp;&quot;</span>, <span class="string">&quot;§&quot;</span>);</span><br><span class="line"><span class="comment">//读取config文件中的Message目录下的HealthFullMessage字符串</span></span><br><span class="line">Bukkit.getPluginManager().registerEvents(<span class="keyword">new</span> BlockPlaceListener(Healmessage, HealthFullMessage), <span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+<p>我懒是一个原因，但是你也应该培养一下翻阅别人的代码的能力，我觉得我的代码还算是很清晰的，应该不需要解释了（除非你看不见注释）</p>
+<p>再解释一下getXXXList，按照上面的config.yml<br>我使用<code>config.getStringList(&quot;Message.HelpMessage&quot;).replace(&quot;&amp;&quot;, &quot;§&quot;);</code>就能读取到那一排插件帮助信息，然后我们写一个for循环输出这些信息就行了。<br>在onCommand下面添加一个命令（别忘了去plugin.yml里注册它！）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(label.equalsIgnoreCase(<span class="string">&quot;TPHelp&quot;</span>)) &#123;</span><br><span class="line">			<span class="keyword">for</span>(String message : <span class="keyword">this</span>.config.getStringList(<span class="string">&quot;Message.HelpMessage&quot;</span>)) &#123;</span><br><span class="line">				sender.sendMessage(message);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
+<p>其他getInt，getIntList之类的方法也都如此，依葫芦画瓢就行了。</p>
+<h1 id="保存config"><a href="#保存config" class="headerlink" title="保存config"></a>保存config</h1><p>如果直接使用<code>saveDefaultConfig();</code>方法保存，那么Bukkit将会把插件根目录下的config保存到磁盘中，但是如果我们现在想要根据插件里的代码来修改这个config里的数据呢？应该如何操作？<br>首先，我们要学会设置数据：<br><code>config.set(地址, 值);</code>，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.config.set(<span class="string">&quot;Numbers.StartTimes&quot;</span>, (<span class="keyword">this</span>.config.getLong(<span class="string">&quot;Numbers.StartTimes&quot;</span>)+<span class="number">1</span> ));</span><br><span class="line"><span class="comment">//与config里的YourTime相加，然后设置为该值</span></span><br><span class="line"><span class="keyword">this</span>.getLogger().info(<span class="string">&quot;插件使用次数：&quot;</span> + <span class="keyword">this</span>.config.getLong(<span class="string">&quot;Numbers.StartTimes&quot;</span>));</span><br><span class="line"><span class="comment">//输出信息</span></span><br><span class="line"><span class="keyword">this</span>.saveConfig();</span><br><span class="line"><span class="comment">//保存到config.yml文件里</span></span><br></pre></td></tr></table></figure>
+<p>把这段代码加到onDisable方法里，然后编译插件，放到服务端里运行，原本我们的config.yml里的StartTimes是0的，启动一次并关闭后发现它变成了1，保存成功！</p>
+<h1 id="使用其他配置文件"><a href="#使用其他配置文件" class="headerlink" title="使用其他配置文件"></a>使用其他配置文件</h1><p>如果我想把Message单独放在一个yml文件里，我应该怎么做？<br>首先你需要加载它：<br><code>FileConfiguration data = YamlConfiguration.loadConfiguration(getResource(&quot;文件名.yml&quot;))</code><br>如果你也想检测一下这个message.yml是否存在，不存在则保存一份，那么你应该这样做</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">File f = <span class="keyword">new</span> File(<span class="keyword">this</span>.getDataFolder(), <span class="string">&quot;message.yml&quot;</span>);</span><br><span class="line">		<span class="keyword">if</span>(!f.exists())&#123;</span><br><span class="line">			<span class="keyword">this</span>.saveResource(<span class="string">&quot;message.yml&quot;</span>, <span class="keyword">true</span>);</span><br><span class="line">			<span class="comment">//保存插件根目录下的message.yml到插件目录文件夹里</span></span><br><span class="line">			<span class="keyword">this</span>.message = YamlConfiguration.loadConfiguration(f);</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
+<p>使用这个方法获取到的配置文件可以像config一样使用，getXXX，set()，它的保存也是<code>saveConfig();</code>，这个方法会保存这个插件的所有配置文件！<br>YamlConfiguration还有其他的加载配置文件的方法，请自行查阅doc！</p>
+<h1 id="关于doc"><a href="#关于doc" class="headerlink" title="关于doc"></a>关于doc</h1><p>我在教程里多次说过这句话“XXX类还有其他XXX方法，请自行查阅文档！”这样说的目的有两个：一是我懒，懒得把所有方法的用法和作用都写出来。二是我认为读者应掌握自学能力，不应该只是跟着我的教程走，从现在开始当一个属于自己的dalao吧！</p>
+<h1 id="本章完"><a href="#本章完" class="headerlink" title="本章完"></a>本章完</h1><h2 id="点我返回目录"><a href="#点我返回目录" class="headerlink" title="点我返回目录"></a><a href="/2017/05/13/Bukkit%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E6%95%99%E7%A8%8B/"><strong>点我返回目录</strong></a></h2><p>感谢各位的阅读！</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>人生不易，仓鼠断气</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/%E5%BE%AE%E4%BF%A1%E6%89%93%E8%B5%8F.jpg" alt="叁只仓鼠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%89%93%E8%B5%8F.jpg" alt="叁只仓鼠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>叁只仓鼠
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://www.hamster3.cn/Bukkit-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" title="Bukkit插件教程篇之配置文件">https://www.hamster3.cn/Bukkit-配置文件/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/Bukkit-%E5%A4%84%E7%90%86%E6%8A%A5%E9%94%99/" rel="prev" title="Bukkit插件教程篇之处理报错">
+      <i class="fa fa-chevron-left"></i> Bukkit插件教程篇之处理报错
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/Bukkit-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="next" title="Bukkit插件教程篇之多线程">
+      Bukkit插件教程篇之多线程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80Mjg5OC8xOTQ0NA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B"><span class="nav-number">1.</span> <span class="nav-text">开始</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AC%E7%AB%A0%E8%A6%81%E6%B1%82"><span class="nav-number">2.</span> <span class="nav-text">本章要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAconfig"><span class="nav-number">3.</span> <span class="nav-text">创建config</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%B9%B6%E8%AF%BB%E5%8F%96config"><span class="nav-number">4.</span> <span class="nav-text">生成并读取config</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8config"><span class="nav-number">5.</span> <span class="nav-text">使用config</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%9D%E5%AD%98config"><span class="nav-number">6.</span> <span class="nav-text">保存config</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%85%B6%E4%BB%96%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">7.</span> <span class="nav-text">使用其他配置文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Edoc"><span class="nav-number">8.</span> <span class="nav-text">关于doc</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AC%E7%AB%A0%E5%AE%8C"><span class="nav-number">9.</span> <span class="nav-text">本章完</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%B9%E6%88%91%E8%BF%94%E5%9B%9E%E7%9B%AE%E5%BD%95"><span class="nav-number">9.1.</span> <span class="nav-text">点我返回目录</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="叁只仓鼠"
+      src="/images/1407293-19.jpg">
+  <p class="site-author-name" itemprop="name">叁只仓鼠</p>
+  <div class="site-description" itemprop="description">现在开始我所展望的未来在哪里呢？</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/MiniDay" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;MiniDay" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/MiniDay" title="gitee → https:&#x2F;&#x2F;gitee.com&#x2F;MiniDay" rel="noopener" target="_blank"><i class="fa fa-fw fa-code"></i>gitee</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/profiles/76561198815642835/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198815642835&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-steam"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://music.163.com/#/user/home?id=115589747" title="网易云音乐 → http:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;115589747" rel="noopener" target="_blank"><i class="fa fa-fw fa-fas fa-music"></i>网易云音乐</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.ixnah.com/" title="https:&#x2F;&#x2F;www.ixnah.com&#x2F;" rel="noopener" target="_blank">寒兮</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hookan.top/" title="https:&#x2F;&#x2F;blog.hookan.top" rel="noopener" target="_blank">皇天</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://mkaliez.com/" title="https:&#x2F;&#x2F;mkaliez.com&#x2F;" rel="noopener" target="_blank">F_picacho</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ustc-zzzz.net/" title="https:&#x2F;&#x2F;blog.ustc-zzzz.net&#x2F;" rel="noopener" target="_blank">ustc-zzzz</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.zhaisoul.com/" title="http:&#x2F;&#x2F;www.zhaisoul.com&#x2F;" rel="noopener" target="_blank">宅魂</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.x-speed.cc/" title="https:&#x2F;&#x2F;blog.x-speed.cc&#x2F;" rel="noopener" target="_blank">Srar</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.bangbang93.com/" title="https:&#x2F;&#x2F;blog.bangbang93.com&#x2F;" rel="noopener" target="_blank">bangbang93</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.mengcraft.com/" title="https:&#x2F;&#x2F;blog.mengcraft.com&#x2F;" rel="noopener" target="_blank">梦梦</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://cireu.github.io/" title="https:&#x2F;&#x2F;cireu.github.io&#x2F;" rel="noopener" target="_blank">NIL</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://acgvideo.co/" title="https:&#x2F;&#x2F;acgvideo.co&#x2F;" rel="noopener" target="_blank">梦彗業</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">叁只仓鼠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script data-pjax>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"gyX4H7ocYLcq7cdMyPdEdImB-gzGzoHsz","app_key":"XYr8QKbxCONFPwgGIMYfa9L0","server_url":null,"security":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+    </div>
+</body>
+</html>

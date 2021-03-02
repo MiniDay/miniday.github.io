@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1407293-19.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1407293-19.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1407293-19.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hamster3.cn","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="开始学习完上一章，你应该了解了Java中的一部分数据类型，以及知道了如何操作它们。那么这一章节我们来学习如何更进阶地操作数据。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java-条件和循环">
+<meta property="og:url" content="https://www.hamster3.cn/Java%E5%9F%BA%E7%A1%80-%E6%9D%A1%E4%BB%B6%E5%92%8C%E5%BE%AA%E7%8E%AF/index.html">
+<meta property="og:site_name" content="叁只仓鼠的博客">
+<meta property="og:description" content="开始学习完上一章，你应该了解了Java中的一部分数据类型，以及知道了如何操作它们。那么这一章节我们来学习如何更进阶地操作数据。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-05-24T12:18:44.000Z">
+<meta property="article:modified_time" content="2019-06-11T10:31:01.252Z">
+<meta property="article:author" content="叁只仓鼠">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.hamster3.cn/Java%E5%9F%BA%E7%A1%80-%E6%9D%A1%E4%BB%B6%E5%92%8C%E5%BE%AA%E7%8E%AF/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Java-条件和循环 | 叁只仓鼠的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">叁只仓鼠的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-mcstory">
+
+    <a href="/sponsor/mcstory.html" rel="section"><i class="fa fa-fw fa-tasks"></i>mcstory</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hamster3.cn/Java%E5%9F%BA%E7%A1%80-%E6%9D%A1%E4%BB%B6%E5%92%8C%E5%BE%AA%E7%8E%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1407293-19.jpg">
+      <meta itemprop="name" content="叁只仓鼠">
+      <meta itemprop="description" content="现在开始我所展望的未来在哪里呢？">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="叁只仓鼠的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java-条件和循环
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-24 20:18:44" itemprop="dateCreated datePublished" datetime="2017-05-24T20:18:44+08:00">2017-05-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-11 18:31:01" itemprop="dateModified" datetime="2019-06-11T18:31:01+08:00">2019-06-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/Java%E5%9F%BA%E7%A1%80-%E6%9D%A1%E4%BB%B6%E5%92%8C%E5%BE%AA%E7%8E%AF/" class="post-meta-item leancloud_visitors" data-flag-title="Java-条件和循环" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><p>学习完上一章，你应该了解了Java中的一部分数据类型，以及知道了如何操作它们。那么这一章节我们来学习如何更进阶地操作数据。</p>
+<span id="more"></span>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=36103287&auto=0&height=66"></iframe>
+**↑不来一首BGM吗？**
+
+<h1 id="本章要求"><a href="#本章要求" class="headerlink" title="本章要求"></a>本章要求</h1><ul>
+<li>学会使用条件分支语句</li>
+<li>学会使用循环语句</li>
+</ul>
+<h1 id="语句块"><a href="#语句块" class="headerlink" title="语句块"></a>语句块</h1><p>在Java中使用“{”和“}”包围起来的就是一段语句块，上面已经讲到过这个语句块里面声明的变量不能在语句块外面使用。</p>
+<h1 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h1><p>if语句很容易，就是如果的意思，如果某个表达式成立，则执行下面跟着的一条语句或者一段语句块。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(表达式)</span><br><span class="line">代码;</span><br></pre></td></tr></table></figure>
+
+<p>表达式是上一章教的内容，如 <code>a&lt;10</code> 以及 <code>true||false</code> 之类的。<br>if语句只接受返回boolean类型（即只接受返回true或false）的表达式。<br>这里如果表达式成立，则执行下面的代码，如果表达式不成立，则不执行。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">if</span>(a &lt; <span class="number">0</span>)</span><br><span class="line">	a = -a;</span><br><span class="line">System.out.println(a);</span><br></pre></td></tr></table></figure>
+<p>他并不会执行<code>a=-a;</code>，因为a并不小于0。然后输出a的值为10。<br>如果if后面跟的是一段语句块，则它会执行后面的这一段语句块。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = -<span class="number">10</span>;</span><br><span class="line"><span class="keyword">if</span>(a &lt; <span class="number">0</span>) &#123;</span><br><span class="line">	a = -a;</span><br><span class="line">	System.out.println(<span class="string">&quot;a小于0！&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(a);</span><br></pre></td></tr></table></figure>
+<p>此时三条文本都会输出。<br>但若你将a初始化为10，则只会输出a的值为10。if后面的语句块内的所有语句都不执行！</p>
+<h2 id="else-if"><a href="#else-if" class="headerlink" title="else if"></a>else if</h2><p>else if也很简单，他必须套在if后面，用于判断多条件分支</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = -<span class="number">10</span>;</span><br><span class="line"><span class="keyword">if</span>(a &lt; <span class="number">0</span>) &#123;</span><br><span class="line">	a = -a;</span><br><span class="line">	System.out.println(<span class="string">&quot;a小于0！&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(a == <span class="number">0</span>) &#123;</span><br><span class="line">	a = <span class="number">100</span>;</span><br><span class="line">	System.out.println(<span class="string">&quot;a等于0！&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(a &gt; <span class="number">0</span>) &#123;</span><br><span class="line">	System.out.println(<span class="string">&quot;a大于0！&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(a);</span><br></pre></td></tr></table></figure>
+<p>这段代码，会先判断a是否小于0，如果小于0，则输出“a小于0！”，然后跳过下面所有的else if，输出a的值。<br>如果a不小于0，则继续往下走，走到else if(a == 0)，继续判断a是否等于0，如果等于0，则执行“a = 100”输出“a等于0！”，然后跳过下面所有的else if，输出a的值。<br>如果a不小于0，也不等于0，则继续判断a是否大于0，是则输出“a大于0”，然后输出a的值。<br>同if一样，如果else if后面只带一条语句，我们可以不必用“{”和“}”把它括起来。</p>
+<h2 id="else"><a href="#else" class="headerlink" title="else"></a>else</h2><p>else的意思很容易理解：否则。<br>它用于最后使用，代表一个if的结束：<br>如果一个if判断不成立，并且下面所有的else if判断也不成立，则执行else下的代码块。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = -<span class="number">10</span>;</span><br><span class="line"><span class="keyword">if</span>(a &lt; <span class="number">0</span>) &#123;</span><br><span class="line">	a = -a;</span><br><span class="line">	System.out.println(<span class="string">&quot;a小于0！&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(a == <span class="number">0</span>) &#123;</span><br><span class="line">	a = <span class="number">100</span>;</span><br><span class="line">	System.out.println(<span class="string">&quot;a等于0！&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(a &lt; <span class="number">10</span>) &#123;</span><br><span class="line">	System.out.println(<span class="string">&quot;a大于0小于10！&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(a &lt; <span class="number">20</span>) &#123;</span><br><span class="line">	System.out.println(<span class="string">&quot;a大于0小于20！&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (a == <span class="number">20</span>) &#123;</span><br><span class="line">	System.out.println(<span class="string">&quot;a等于20！&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">	System.out.println(<span class="string">&quot;a大于20！&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(a);</span><br></pre></td></tr></table></figure>
+<p>应该不难理解，这是一个简单的判断数字大小的程序。</p>
+<h2 id="double数据"><a href="#double数据" class="headerlink" title="double数据"></a>double数据</h2><p>在判断double型数据时，你不应该直接用“==”来判断。<br>因为double在执行了过多的计算时可能会有些误差，下面介绍一个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> a;</span><br><span class="line">a = <span class="number">100.1</span>;</span><br><span class="line">a = a+<span class="number">0.1</span>;</span><br><span class="line">System.out.println(a);</span><br></pre></td></tr></table></figure>
+<p>控制台输出的不是100.2，而是100.19999999999999！<br>现在你也许知道了我为什么让你不要直接用“==”来判断，因为这时如果你直接写<br>if(a == 100.2)是不行的！<br>那如果我们必须判断这两个数值是否相等怎么办？相减！<br>if((a-100.2) &lt;= 0.0000000001 )<br>这样子写就行了！</p>
+<h2 id="编码规范"><a href="#编码规范" class="headerlink" title="编码规范"></a>编码规范</h2><p>不知道为什么，有些人喜欢这样子写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(a &lt; <span class="number">0</span>)</span><br><span class="line">	a = -a;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(a == <span class="number">0</span>)</span><br><span class="line">	a = <span class="number">100</span>;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	a = a + <span class="number">100</span>;</span><br></pre></td></tr></table></figure>
+<p>上面说过，if、else if、else后面可以带一个语句或语句块，后面只带一条语句时这样写确实没错，但是我并不推荐这样做。<br>不管后面是不是只带一条语句，一律套上一个语句块，至少看起来舒服点。<br>如果你打死也不想多写一个“{”和“}”，那么你可以这样做：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(a &lt; <span class="number">0</span>)a = -a;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(a == <span class="number">0</span>)	a = <span class="number">100</span>;</span><br><span class="line"><span class="keyword">else</span>	a = a + <span class="number">100</span>;</span><br></pre></td></tr></table></figure>
+<p>第二点就是，有些人在if和else if表达式内容冲突是，不喜欢写else if（比如说我），而是直接一路if下去，像这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(a &lt; <span class="number">0</span>) &#123;</span><br><span class="line">	a = -a;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(a == <span class="number">0</span>) &#123;</span><br><span class="line">	a = <span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(a &gt; <span class="number">0</span>) &#123;</span><br><span class="line">	a = a + <span class="number">100</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我十分不推荐这样子写！因为它在判断了第一个a是否小于零之后，还会继续判断a是否等于0。<br>而如果你下面两个用的else if，则不会继续往下判断了，cpu就少运算两次，对我们的代码起到了一定的优化作用。<br>（但我不是让你们任何情况下都用else if，具体问题具体分析）</p>
+<h1 id="switch语句"><a href="#switch语句" class="headerlink" title="switch语句"></a>switch语句</h1><p>switch语句用于判断多值，他不像if那样只能判断true和false，他能判断很多内容：int、double、字符串…</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> (表达式)&#123;</span><br><span class="line"><span class="keyword">case</span> 值<span class="number">1</span> : 语句<span class="number">1</span></span><br><span class="line"><span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">case</span> 值<span class="number">2</span> : 语句<span class="number">2</span></span><br><span class="line"><span class="keyword">break</span>;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">default</span> : 语句n</span><br><span class="line"><span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>switch语句接受一个表达式，然后下面的case接受一个值，switch会先算出这个表达式的值，然后判断与下面哪一个case值相等，相等则执行对应下面的语句，而如果它不和任何一个case相等，则执行default语句。如果程序猿没有写default，则什么都不做。<br>下面用一个简单的例子来介绍：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">7</span>;</span><br><span class="line"><span class="keyword">switch</span> (a) &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">	System.out.println(<span class="string">&quot;今天星期1！&quot;</span>);</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">	System.out.println(<span class="string">&quot;今天星期2！&quot;</span>);</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">	System.out.println(<span class="string">&quot;今天星期3！&quot;</span>);</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">	System.out.println(<span class="string">&quot;今天星期4！&quot;</span>);</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">	System.out.println(<span class="string">&quot;今天星期5！&quot;</span>);</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">case</span> <span class="number">6</span>:</span><br><span class="line">	System.out.println(<span class="string">&quot;今天星期6！&quot;</span>);</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">case</span> <span class="number">7</span>:</span><br><span class="line">	System.out.println(<span class="string">&quot;今天星期7！&quot;</span>);</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">	System.out.println(<span class="string">&quot;程序出错！&quot;</span>);</span><br><span class="line">	<span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码会根据a的大小输出今天是星期几，如果a不等于1~7中的任何一个数，则输出“程序出错！”。</p>
+<h1 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h1><p>while循环会一直执行后面带着的语句或语句块的代码，直到它判断的条件不成立为止：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(表达式) &#123;</span><br><span class="line">执行代码；</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用一个例子来说话：输出1~10000之间的所有整数数字</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">while</span>(a &lt;= <span class="number">10000</span>) &#123;</span><br><span class="line">	System.out.println(a);</span><br><span class="line">	a++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（你要是不嫌累，也可写一万条<code>System.out.println(&quot;整数&quot;);</code>）<br>程序会先判断a是否小于或等于10000，如果成立则执行下面的代码：当a为1时，a小于10000，执行代码输出a的值，然后让a自增1。此时a为2，仍然小于10000，继续执行……当a等于10000时，它等于10000，对于表达式<code>a&lt;=10000</code>仍然成立，于是继续输出a的值，然后a自增1。此时a为10001，表达式<code>a&lt;=10000</code>不成立，于是不再执行语句块内的代码。<br>这段代码也可以简写成：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">while</span>(a &lt;= <span class="number">10000</span>)	System.out.println(a++);</span><br></pre></td></tr></table></figure>
+
+<h2 id="do-while循环"><a href="#do-while循环" class="headerlink" title="do while循环"></a>do while循环</h2><p>do while语句就是先把语句块里的内容执行一遍，然后再判断是否需要循环。<br>而while则是先判断表达式是否成立再执行，两个循环代码有区别，这里不介绍do while的例子了，直接给写法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">	执行代码;</span><br><span class="line">&#125; <span class="keyword">while</span> (表达式);</span><br></pre></td></tr></table></figure>
+
+<h1 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h1><p>for循环和while循环差不多，它一般用于遍历数组之类的东西（数组之后会讲到）<br>他的代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(语句<span class="number">1</span>;表达式;语句<span class="number">2</span>) &#123;</span><br><span class="line">	执行代码;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>语句1在第一次执行语句块之前会先执行一次，而且它仅会执行一次。<br>表达式用于判断循环是否需要继续，和while里的判断差不多。<br>语句2在每次执行完语句块之后会执行一次。<br>用for循环写一个输出1~10000的整数的方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> a=<span class="number">1</span>;a&lt;=<span class="number">10000</span>;a++) &#123;</span><br><span class="line">	System.out.println(a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然你也可以简写成</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> a=<span class="number">1</span>;a&lt;=<span class="number">10000</span>;a++)	System.out.println(a);</span><br></pre></td></tr></table></figure>
+<p>虽然我并不推荐第二种写法就是了。</p>
+<h1 id="死循环"><a href="#死循环" class="headerlink" title="死循环"></a>死循环</h1><p>死循环就是无限执行的循环，while版如下写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>) &#123;</span><br><span class="line">	执行代码;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>for版如下写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(;;) &#123;</span><br><span class="line">	执行代码;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你的程序出现了死循环，那么它将可能卡在某一段代码一直过不去（除非你使用了多线程技术），有时候我们需要判断我们的表达式是否是“永久不变的”，如我们在输出1~10000中，如果不写<code>a++;</code>，则程序会无限输出1，陷入死循环。<br>死循环一般需要使用break语句跳出，下面会讲到。</p>
+<h1 id="continue语句"><a href="#continue语句" class="headerlink" title="continue语句"></a>continue语句</h1><p>continue语句用于循环中，它的作用是跳过当前语句块，不执行下面的所有代码，或者说直接跳到代码块最后。<br>例子：输出1~10000之间的所有整数，除了可以被10整除的数。</p>
+<h2 id="while版"><a href="#while版" class="headerlink" title="while版"></a>while版</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">while</span>(a&lt;=<span class="number">10000</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span>(a % <span class="number">10</span> == <span class="number">0</span>) &#123;</span><br><span class="line">		a++;</span><br><span class="line">		<span class="keyword">continue</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	System.out.println(a);</span><br><span class="line">	a++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用了continue之后，不会执行下面的语句了，而是直接继续下一次循环。<br>（其实你可以写成如下，但是这里为了介绍continue的作用选择了一种更麻烦的写法）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">while</span>(a&lt;=<span class="number">10000</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span>(a % <span class="number">10</span> != <span class="number">0</span>) &#123;</span><br><span class="line">	System.out.println(a);</span><br><span class="line">	&#125;</span><br><span class="line">	a++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="do-while版"><a href="#do-while版" class="headerlink" title="do while版"></a>do while版</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">	<span class="keyword">if</span>(a % <span class="number">10</span> != <span class="number">0</span>) &#123;</span><br><span class="line">		System.out.println(a);</span><br><span class="line">		&#125;</span><br><span class="line">		a++;</span><br><span class="line">&#125; <span class="keyword">while</span> (a&lt;=<span class="number">10000</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="for版"><a href="#for版" class="headerlink" title="for版"></a>for版</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> a=<span class="number">1</span>;a&lt;=<span class="number">10000</span>;a++) &#123;</span><br><span class="line">	<span class="keyword">if</span>(a % <span class="number">10</span> == <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">continue</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	System.out.println(a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="break语句"><a href="#break语句" class="headerlink" title="break语句"></a>break语句</h1><h2 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h2><p>下面我们来试试把上面switch例子中的break语句都去掉，并将a改为3试试。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">switch</span> (a) &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">	System.out.println(<span class="string">&quot;今天星期1！&quot;</span>);</span><br><span class="line"><span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">	System.out.println(<span class="string">&quot;今天星期2！&quot;</span>);</span><br><span class="line"><span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">	System.out.println(<span class="string">&quot;今天星期3！&quot;</span>);</span><br><span class="line"><span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">	System.out.println(<span class="string">&quot;今天星期4！&quot;</span>);</span><br><span class="line"><span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">	System.out.println(<span class="string">&quot;今天星期5！&quot;</span>);</span><br><span class="line"><span class="keyword">case</span> <span class="number">6</span>:</span><br><span class="line">	System.out.println(<span class="string">&quot;今天星期6！&quot;</span>);</span><br><span class="line"><span class="keyword">case</span> <span class="number">7</span>:</span><br><span class="line">	System.out.println(<span class="string">&quot;今天星期7！&quot;</span>);</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">	System.out.println(<span class="string">&quot;程序出错！&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>程序输出如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">今天星期3！</span><br><span class="line">今天星期4！</span><br><span class="line">今天星期5！</span><br><span class="line">今天星期6！</span><br><span class="line">今天星期7！</span><br><span class="line">程序出错！</span><br></pre></td></tr></table></figure>
+<p>结果是：程序除了输出<code>case 3:</code>还把<code>case: 4~7</code>里的内容都输出了，甚至default都不放过。那因为我们删掉了break语句！<br>break语句用于中断一个switch或者循环语句块，他中断当前所在的“{”和“}”包围起来的语句块，上面我们写了break语句的switch之所以不会输出下面的语句，就是因为break中断了switch带着的语句块，直接跳出了这段语句块！<br>这就是break语句的作用：中断当前语句块！（前提是这个语句块属于循环或switch）</p>
+<h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><p>循环中的break和continue有点像，但他们完全不相同！continue是直接跳过当前循环进行下一次循环，而break是直接终止当前循环，如果我们在输出1~10000的语句中写了一句<code>if(a == 2333)    break;</code>，则循环会在a为2333时中断，后面的数字不再输出！循环关闭！死循环必须使用它来跳出！</p>
+<h1 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h1><ul>
+<li>声明两个int型数据，并判断他们的大小，输出对应大小关系</li>
+<li>声明两个double型数据，并判断他们是否相等，是则输出Yes</li>
+<li>用循环输出-10086~10086间的所有整数</li>
+<li>写一个死循环输出100000个1，并用break跳出</li>
+<li>用循环输出一个正立的三角形，三角形的大小应该可以由一个int值控制<br>如：当这个int为5时，应该输出<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">0000*</span><br><span class="line">000***</span><br><span class="line">00*****</span><br><span class="line">0*******</span><br><span class="line">*********</span><br></pre></td></tr></table></figure></li>
+<li>用循环输出一个倒立的三角形，三角形的大小应该可以由一个int值控制<br>如：当这个int为5时，应该输出<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*********</span><br><span class="line">0*******</span><br><span class="line">00*****</span><br><span class="line">000***</span><br><span class="line">0000*</span><br></pre></td></tr></table></figure></li>
+<li>用循环输出一个菱形，菱形的大小应该可以由一个int值控制<br>如：当这个int为5时，应该输出<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">0000*</span><br><span class="line">000***</span><br><span class="line">00*****</span><br><span class="line">0*******</span><br><span class="line">*********</span><br><span class="line">0*******</span><br><span class="line">00*****</span><br><span class="line">000***</span><br><span class="line">0000*</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><a href="/2017/07/13/%E4%BD%9C%E4%B8%9A%E7%AD%94%E6%A1%88/"><strong>练习答案</strong></a></p>
+<h1 id="本章完"><a href="#本章完" class="headerlink" title="本章完"></a>本章完</h1><h2 id="点我返回目录"><a href="#点我返回目录" class="headerlink" title="点我返回目录"></a><a href="/2017/05/13/Bukkit%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E6%95%99%E7%A8%8B/"><strong>点我返回目录</strong></a></h2><p>感谢各位的阅读！</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>人生不易，仓鼠断气</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/%E5%BE%AE%E4%BF%A1%E6%89%93%E8%B5%8F.jpg" alt="叁只仓鼠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%89%93%E8%B5%8F.jpg" alt="叁只仓鼠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>叁只仓鼠
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://www.hamster3.cn/Java%E5%9F%BA%E7%A1%80-%E6%9D%A1%E4%BB%B6%E5%92%8C%E5%BE%AA%E7%8E%AF/" title="Java-条件和循环">https://www.hamster3.cn/Java基础-条件和循环/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/Bukkit-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="prev" title="Bukkit插件教程篇之多线程">
+      <i class="fa fa-chevron-left"></i> Bukkit插件教程篇之多线程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/Java%E5%9F%BA%E7%A1%80-%E6%95%B0%E7%BB%84%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="next" title="Java基础-数组和字符串">
+      Java基础-数组和字符串 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80Mjg5OC8xOTQ0NA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B"><span class="nav-number">1.</span> <span class="nav-text">开始</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AC%E7%AB%A0%E8%A6%81%E6%B1%82"><span class="nav-number">2.</span> <span class="nav-text">本章要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%AD%E5%8F%A5%E5%9D%97"><span class="nav-number">3.</span> <span class="nav-text">语句块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#if%E8%AF%AD%E5%8F%A5"><span class="nav-number">4.</span> <span class="nav-text">if语句</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#else-if"><span class="nav-number">4.1.</span> <span class="nav-text">else if</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#else"><span class="nav-number">4.2.</span> <span class="nav-text">else</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#double%E6%95%B0%E6%8D%AE"><span class="nav-number">4.3.</span> <span class="nav-text">double数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83"><span class="nav-number">4.4.</span> <span class="nav-text">编码规范</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#switch%E8%AF%AD%E5%8F%A5"><span class="nav-number">5.</span> <span class="nav-text">switch语句</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#while%E5%BE%AA%E7%8E%AF"><span class="nav-number">6.</span> <span class="nav-text">while循环</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#do-while%E5%BE%AA%E7%8E%AF"><span class="nav-number">6.1.</span> <span class="nav-text">do while循环</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#for%E5%BE%AA%E7%8E%AF"><span class="nav-number">7.</span> <span class="nav-text">for循环</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%BB%E5%BE%AA%E7%8E%AF"><span class="nav-number">8.</span> <span class="nav-text">死循环</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#continue%E8%AF%AD%E5%8F%A5"><span class="nav-number">9.</span> <span class="nav-text">continue语句</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#while%E7%89%88"><span class="nav-number">9.1.</span> <span class="nav-text">while版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#do-while%E7%89%88"><span class="nav-number">9.2.</span> <span class="nav-text">do while版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#for%E7%89%88"><span class="nav-number">9.3.</span> <span class="nav-text">for版</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#break%E8%AF%AD%E5%8F%A5"><span class="nav-number">10.</span> <span class="nav-text">break语句</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#switch"><span class="nav-number">10.1.</span> <span class="nav-text">switch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF"><span class="nav-number">10.2.</span> <span class="nav-text">循环</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0"><span class="nav-number">11.</span> <span class="nav-text">练习</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AC%E7%AB%A0%E5%AE%8C"><span class="nav-number">12.</span> <span class="nav-text">本章完</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%B9%E6%88%91%E8%BF%94%E5%9B%9E%E7%9B%AE%E5%BD%95"><span class="nav-number">12.1.</span> <span class="nav-text">点我返回目录</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="叁只仓鼠"
+      src="/images/1407293-19.jpg">
+  <p class="site-author-name" itemprop="name">叁只仓鼠</p>
+  <div class="site-description" itemprop="description">现在开始我所展望的未来在哪里呢？</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/MiniDay" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;MiniDay" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/MiniDay" title="gitee → https:&#x2F;&#x2F;gitee.com&#x2F;MiniDay" rel="noopener" target="_blank"><i class="fa fa-fw fa-code"></i>gitee</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/profiles/76561198815642835/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198815642835&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-steam"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://music.163.com/#/user/home?id=115589747" title="网易云音乐 → http:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;115589747" rel="noopener" target="_blank"><i class="fa fa-fw fa-fas fa-music"></i>网易云音乐</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.ixnah.com/" title="https:&#x2F;&#x2F;www.ixnah.com&#x2F;" rel="noopener" target="_blank">寒兮</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hookan.top/" title="https:&#x2F;&#x2F;blog.hookan.top" rel="noopener" target="_blank">皇天</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://mkaliez.com/" title="https:&#x2F;&#x2F;mkaliez.com&#x2F;" rel="noopener" target="_blank">F_picacho</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ustc-zzzz.net/" title="https:&#x2F;&#x2F;blog.ustc-zzzz.net&#x2F;" rel="noopener" target="_blank">ustc-zzzz</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.zhaisoul.com/" title="http:&#x2F;&#x2F;www.zhaisoul.com&#x2F;" rel="noopener" target="_blank">宅魂</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.x-speed.cc/" title="https:&#x2F;&#x2F;blog.x-speed.cc&#x2F;" rel="noopener" target="_blank">Srar</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.bangbang93.com/" title="https:&#x2F;&#x2F;blog.bangbang93.com&#x2F;" rel="noopener" target="_blank">bangbang93</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.mengcraft.com/" title="https:&#x2F;&#x2F;blog.mengcraft.com&#x2F;" rel="noopener" target="_blank">梦梦</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://cireu.github.io/" title="https:&#x2F;&#x2F;cireu.github.io&#x2F;" rel="noopener" target="_blank">NIL</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://acgvideo.co/" title="https:&#x2F;&#x2F;acgvideo.co&#x2F;" rel="noopener" target="_blank">梦彗業</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">叁只仓鼠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script data-pjax>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"gyX4H7ocYLcq7cdMyPdEdImB-gzGzoHsz","app_key":"XYr8QKbxCONFPwgGIMYfa9L0","server_url":null,"security":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+    </div>
+</body>
+</html>

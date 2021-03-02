@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1407293-19.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1407293-19.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1407293-19.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hamster3.cn","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="开始虽然Java里也有多线程，但是Bukkit为我们写好的多线程更好用，我们可以直接使用BukkitRunnable来实现多线程！他与Java提供的多线程有一点不同，BukkitRunnable与游戏时钟紧密相关。如果你的多线程不需要做到与游戏时间同步，那么你完全可以不使用BukkitRunnable！这里先介绍一下：Minecraft中的时间用ticks计时，20ticks&#x3D;1秒。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bukkit插件教程篇之多线程">
+<meta property="og:url" content="https://www.hamster3.cn/Bukkit-%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html">
+<meta property="og:site_name" content="叁只仓鼠的博客">
+<meta property="og:description" content="开始虽然Java里也有多线程，但是Bukkit为我们写好的多线程更好用，我们可以直接使用BukkitRunnable来实现多线程！他与Java提供的多线程有一点不同，BukkitRunnable与游戏时钟紧密相关。如果你的多线程不需要做到与游戏时间同步，那么你完全可以不使用BukkitRunnable！这里先介绍一下：Minecraft中的时间用ticks计时，20ticks&#x3D;1秒。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.hamster3.cn/Bukkit%E6%8F%92%E4%BB%B6%E6%95%99%E7%A8%8B/%E8%87%AA%E5%8A%A8%E5%85%AC%E5%91%8A.png">
+<meta property="article:published_time" content="2017-05-22T10:17:48.000Z">
+<meta property="article:modified_time" content="2019-07-12T23:36:28.470Z">
+<meta property="article:author" content="叁只仓鼠">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.hamster3.cn/Bukkit%E6%8F%92%E4%BB%B6%E6%95%99%E7%A8%8B/%E8%87%AA%E5%8A%A8%E5%85%AC%E5%91%8A.png">
+
+<link rel="canonical" href="https://www.hamster3.cn/Bukkit-%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Bukkit插件教程篇之多线程 | 叁只仓鼠的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">叁只仓鼠的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-mcstory">
+
+    <a href="/sponsor/mcstory.html" rel="section"><i class="fa fa-fw fa-tasks"></i>mcstory</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hamster3.cn/Bukkit-%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1407293-19.jpg">
+      <meta itemprop="name" content="叁只仓鼠">
+      <meta itemprop="description" content="现在开始我所展望的未来在哪里呢？">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="叁只仓鼠的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Bukkit插件教程篇之多线程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-22 18:17:48" itemprop="dateCreated datePublished" datetime="2017-05-22T18:17:48+08:00">2017-05-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-07-13 07:36:28" itemprop="dateModified" datetime="2019-07-13T07:36:28+08:00">2019-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/Java/Bukkit/" itemprop="url" rel="index"><span itemprop="name">Bukkit</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/Bukkit-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="post-meta-item leancloud_visitors" data-flag-title="Bukkit插件教程篇之多线程" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><p>虽然Java里也有多线程，但是Bukkit为我们写好的多线程更好用，我们可以直接使用BukkitRunnable来实现多线程！<br>他与Java提供的多线程有一点不同，BukkitRunnable与游戏时钟紧密相关。如果你的多线程不需要做到与游戏时间同步，那么你完全可以不使用BukkitRunnable！<br>这里先介绍一下：Minecraft中的时间用ticks计时，20ticks=1秒。</p>
+<span id="more"></span>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=36103287&auto=0&height=66"></iframe>
+**↑不来一首BGM吗？**
+
+<h1 id="本章要求"><a href="#本章要求" class="headerlink" title="本章要求"></a>本章要求</h1><ul>
+<li>学会使用BukkitRunnable</li>
+</ul>
+<h1 id="BukkitRunnable介绍"><a href="#BukkitRunnable介绍" class="headerlink" title="BukkitRunnable介绍"></a>BukkitRunnable介绍</h1><p>BukkitRunnable是Bukkit为开发者写的一套便于使用的多线程模板，查阅doc即可知道，这个类里有九个方法，其中一个是run，也就是开始运行这个多线程。但是我们并不推荐直接使用.run来启动这个线程。</p>
+<h1 id="BukkitRunnable方法介绍"><a href="#BukkitRunnable方法介绍" class="headerlink" title="BukkitRunnable方法介绍"></a>BukkitRunnable方法介绍</h1><p>其实这个有能力的同学可以自行翻阅doc查看，不过我这里还是介绍一下吧。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>参数</th>
+<th>作用</th>
+<th>返回值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cancel</td>
+<td>无</td>
+<td>停止该线程</td>
+<td>无</td>
+</tr>
+<tr>
+<td>getTaskId</td>
+<td>无</td>
+<td>获取该线程的ID</td>
+<td>int</td>
+</tr>
+<tr>
+<td>runTask</td>
+<td>Plugin</td>
+<td>在主线程运行一个线程实例</td>
+<td>BukkitTask</td>
+</tr>
+<tr>
+<td>runTaskAsynchronously</td>
+<td>Plugin</td>
+<td>异步运行一个线程实例</td>
+<td>BukkitTask</td>
+</tr>
+<tr>
+<td>runTaskLater</td>
+<td>Plugin plugin, long delay</td>
+<td>delay个ticks后在主线程运行一个线程实例</td>
+<td>BukkitTask</td>
+</tr>
+<tr>
+<td>runTaskLaterAsynchronously</td>
+<td>Plugin plugin, long delay</td>
+<td>delay个ticks后异步运行一个线程实例</td>
+<td>BukkitTask</td>
+</tr>
+<tr>
+<td>runTaskTimer</td>
+<td>Plugin plugin, long delay, long period</td>
+<td>delay个ticks后每隔period个ticks在主线程运行一个线程实例</td>
+<td>BukkitTask</td>
+</tr>
+<tr>
+<td>runTaskTimerAsynchronously</td>
+<td>Plugin plugin, long delay, long period</td>
+<td>delay个ticks后每隔period个ticks异步运行一个线程实例</td>
+<td>BukkitTask</td>
+</tr>
+<tr>
+<td>run</td>
+<td>无</td>
+<td>直接运行run()方法</td>
+<td>无</td>
+</tr>
+</tbody></table>
+<p>ticks是刻的意思，这里指1游戏刻。上面介绍过：在Minecraft中1游戏刻=0.05秒。也就是说20ticks = 1秒。<br>在主线程运行的意思是：服务器将停止其他工作，只运行你这个线程的代码直到结束。<br>异步运行的意思是：你的这个线程实例不会堵塞服务器主线程，服务器上发生的一切事情都与你的线程互不相关。一般情况下更推荐使用这个，一定程度上可以减轻插件对于服务器的卡顿。<br>但是有时候一些操作必须在bukkit主线程运行，比如说<code>Bukkit.dispatchCommand(sender, commandLine);</code>（以sender的身份执行一条命令）<br>此时你不能用runTaskAsynchronously，更别想着用Java的Thread或Runnable！否则服务端会抛出错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[19:44:07] [Thread-52&#x2F;INFO]: An unknown error occurred while attempting to perform this command</span><br><span class="line">[19:44:07] [Thread-52&#x2F;WARN]: Unknown CommandBlock failed to handle command</span><br><span class="line">java.lang.IllegalStateException: Asynchronous entity add!</span><br><span class="line">    at org.spigotmc.AsyncCatcher.catchOp(AsyncCatcher.java:14) ~[spigot-1.12.2.jar:git-Spigot-b66ad9e-e1fb9cb]</span><br><span class="line">    at net.minecraft.server.v1_12_R1.World.addEntity(World.java:1017) ~[spigot-1.12.2.jar:git-Spigot-b66ad9e-e1fb9cb]</span><br><span class="line">    at net.minecraft.server.v1_12_R1.WorldServer.addEntity(WorldServer.java:1112) ~[spigot-1.12.2.jar:git-Spigot-b66ad9e-e1fb9cb]</span><br><span class="line">    at net.minecraft.server.v1_12_R1.World.addEntity(World.java:1013) ~[spigot-1.12.2.jar:git-Spigot-b66ad9e-e1fb9cb]</span><br><span class="line">    at net.minecraft.server.v1_12_R1.EntityHuman.a(EntityHuman.java:566) ~[spigot-1.12.2.jar:git-Spigot-b66ad9e-e1fb9cb]</span><br><span class="line">    at net.minecraft.server.v1_12_R1.EntityHuman.a(EntityHuman.java:551) ~[spigot-1.12.2.jar:git-Spigot-b66ad9e-e1fb9cb]</span><br><span class="line">    at net.minecraft.server.v1_12_R1.EntityHuman.drop(EntityHuman.java:490) ~[spigot-1.12.2.jar:git-Spigot-b66ad9e-e1fb9cb]</span><br><span class="line">    at net.minecraft.server.v1_12_R1.CommandGive.execute(SourceFile:75) ~[spigot-1.12.2.jar:git-Spigot-b66ad9e-e1fb9cb]</span><br><span class="line">    at org.bukkit.craftbukkit.v1_12_R1.command.VanillaCommandWrapper.dispatchVanillaCommand(VanillaCommandWrapper.java:109) [spigot-1.12.2.jar:git-Spigot-b66ad9e-e1fb9cb]</span><br><span class="line">    at org.bukkit.craftbukkit.v1_12_R1.command.VanillaCommandWrapper.execute(VanillaCommandWrapper.java:38) [spigot-1.12.2.jar:git-Spigot-b66ad9e-e1fb9cb]</span><br><span class="line">    at org.bukkit.command.SimpleCommandMap.dispatch(SimpleCommandMap.java:141) [spigot-1.12.2.jar:git-Spigot-b66ad9e-e1fb9cb]</span><br><span class="line">    at org.bukkit.craftbukkit.v1_12_R1.CraftServer.dispatchCommand(CraftServer.java:648) [spigot-1.12.2.jar:git-Spigot-b66ad9e-e1fb9cb]</span><br><span class="line">    at org.bukkit.Bukkit.dispatchCommand(Bukkit.java:574) [spigot-1.12.2.jar:git-Spigot-b66ad9e-e1fb9cb]</span><br><span class="line">    at cn.viosin.roll.RollThread.end(RollThread.java:102) [Roll.jar:?]</span><br><span class="line">    at cn.viosin.roll.RollThread.run(RollThread.java:56) [Roll.jar:?]</span><br></pre></td></tr></table></figure>
+
+<h1 id="例子：自动公告"><a href="#例子：自动公告" class="headerlink" title="例子：自动公告"></a>例子：自动公告</h1><p>如果我想让我的插件能够自动播放公告，并且是每隔一段时间广播一次，那么使用BukkitRunnable就是一个明智的选择。为了让插件有更高的自定义性，我们先在config中添加如下字段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Broadcast:</span><br><span class="line">  Enable: true</span><br><span class="line">  #是否启用</span><br><span class="line">  Cooldown: 45</span><br><span class="line">  #冷却时间，以秒为单位</span><br><span class="line">  Prefix: &quot;&amp;a[公告]&quot;</span><br><span class="line">  #公告前缀</span><br><span class="line">  Messages:</span><br><span class="line">    - &quot;&amp;c叁只仓鼠！&quot;</span><br><span class="line">    - &quot;&amp;c欢迎来到Minecraft！&quot;</span><br></pre></td></tr></table></figure>
+<p>然后，创建一个类并继承BukkitRunnable</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BroadCastRunnable</span> <span class="keyword">extends</span> <span class="title">BukkitRunnable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; message;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> post;</span><br><span class="line">    <span class="comment">//当前播放广播的位置</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BroadCastRunnable</span><span class="params">(List&lt;String&gt; message)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.message = message;</span><br><span class="line">        <span class="keyword">this</span>.post = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Bukkit.broadcastMessage(<span class="keyword">this</span>.message.get(post));</span><br><span class="line">        <span class="comment">//广播公告</span></span><br><span class="line">        post = (post + <span class="number">1</span>) % <span class="keyword">this</span>.message.size();</span><br><span class="line">        <span class="comment">//调整post位置为post+1，若post已指向最后一个则从0开始</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们在main类里先创建一个全局变量保存这个类的实例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">main</span> <span class="keyword">extends</span> <span class="title">JavaPlugin</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> FileConfiguration config;</span><br><span class="line">    <span class="keyword">private</span> BroadCastRunnable broad = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">//省略其他代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们在onEnable里开始写代码，注意的是，一定要先获取config实例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onEnable</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">this</span>.config.getBoolean(<span class="string">&quot;Broadcast.Enable&quot;</span>)) &#123;</span><br><span class="line">            <span class="keyword">this</span>.getLogger().info(<span class="string">&quot;公告模块已启动：&quot;</span>);</span><br><span class="line">            <span class="keyword">long</span> cooldown = <span class="keyword">this</span>.config.getLong(<span class="string">&quot;Broadcast.Cooldown&quot;</span>);</span><br><span class="line">            <span class="keyword">this</span>.getLogger().info(<span class="string">&quot;  公告播放频率：&quot;</span> + cooldown + <span class="string">&quot;秒&quot;</span>);</span><br><span class="line">            String prefix = <span class="keyword">this</span>.config.getString(<span class="string">&quot;Broadcast.Prefix&quot;</span>);</span><br><span class="line">            <span class="keyword">this</span>.getLogger().info(<span class="string">&quot;  公告前缀：&quot;</span> + prefix);</span><br><span class="line">            List&lt;String&gt; messages = <span class="keyword">this</span>.config.getStringList(<span class="string">&quot;Broadcast.Messages&quot;</span>);</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;messages.size();i++)&#123;</span><br><span class="line">                <span class="keyword">this</span>.getLogger().info(<span class="string">&quot;    公告内容：&quot;</span> + messages.get(i));</span><br><span class="line">                messages.set(i, ( prefix + messages.get(i) ).replace(<span class="string">&quot;&amp;&quot;</span>, <span class="string">&quot;§&quot;</span>) );</span><br><span class="line">                <span class="comment">//把每一个内容都加上公告前缀，并替换颜色字符</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">this</span>.broad = <span class="keyword">new</span> BroadCastRunnable(messages);</span><br><span class="line">            <span class="comment">//实例化broad，把更改后的messages传递过去</span></span><br><span class="line">            <span class="keyword">this</span>.broad.runTaskTimerAsynchronously(<span class="keyword">this</span>, <span class="number">0</span>, cooldown*<span class="number">20</span>);</span><br><span class="line">            <span class="comment">//在0秒延迟后每隔20秒运行这个broad实例一次</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">this</span>.getLogger().info(<span class="string">&quot;公告模块未启用！&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;插件被启动了&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不需要多解释，看注释就行了。如果我们不想使用了这个broad实例，直接cancel就行了。这里我们在插件被关闭时取消这个broad实例，所以我们在onDisable里加上代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDisable</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//省略其他代码</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.broad != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.broad.cancel();</span><br><span class="line">        <span class="comment">//如果broad已被实例化了，则取消这个线程</span></span><br><span class="line">        <span class="comment">//因为上面的代码中我们实例化了broad之后就开启了这个线程</span></span><br><span class="line">        <span class="comment">//所以我们只需要判断broad是否实例化，而不用判断它是否被开启了</span></span><br><span class="line">        <span class="keyword">this</span>.getLogger().info(<span class="string">&quot;公告模块已关闭！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(<span class="string">&quot;插件被关闭了&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样我们的插件就能实现自动公告了！<br><img data-src="/Bukkit%E6%8F%92%E4%BB%B6%E6%95%99%E7%A8%8B/%E8%87%AA%E5%8A%A8%E5%85%AC%E5%91%8A.png" alt="自动公告"><br>（图中忘了修改plugin.yml中的version，不要在意~）</p>
+<h1 id="匿名内部类写法"><a href="#匿名内部类写法" class="headerlink" title="匿名内部类写法"></a>匿名内部类写法</h1><p>首先在main类里创建一个全局变量BukkitTask用于存储BukkitRunnable调用启动线程的方法后返回的BukkitTask。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">main</span> <span class="keyword">extends</span> <span class="title">JavaPlugin</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> FileConfiguration config = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">private</span> BukkitTask broad = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">//省略其他代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在onEnable里创建匿名内部类并使用runTaskTimerAsynchronously方法，将返回值赋值给broad变量。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onEnable</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//其他代码，其中包含了获取config实例</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.config.getBoolean(<span class="string">&quot;Broadcast.Enable&quot;</span>)) &#123;</span><br><span class="line">        <span class="keyword">this</span>.getLogger().info(<span class="string">&quot;公告模块已启动：&quot;</span>);</span><br><span class="line">        <span class="keyword">long</span> cooldown = <span class="keyword">this</span>.config.getLong(<span class="string">&quot;Broadcast.Cooldown&quot;</span>);</span><br><span class="line">        <span class="keyword">this</span>.getLogger().info(<span class="string">&quot;  公告播放频率：&quot;</span> + cooldown + <span class="string">&quot;秒&quot;</span>);</span><br><span class="line">        String prefix = <span class="keyword">this</span>.config.getString(<span class="string">&quot;Broadcast.Prefix&quot;</span>);</span><br><span class="line">        <span class="keyword">this</span>.getLogger().info(<span class="string">&quot;  公告前缀：&quot;</span> + prefix);</span><br><span class="line">        List&lt;String&gt; messages = <span class="keyword">this</span>.config.getStringList(<span class="string">&quot;Broadcast.Messages&quot;</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;messages.size();i++)&#123;</span><br><span class="line">            <span class="keyword">this</span>.getLogger().info(<span class="string">&quot;    公告内容：&quot;</span> + messages.get(i));</span><br><span class="line">            messages.set(i, ( prefix + messages.get(i) ).replace(<span class="string">&quot;&amp;&quot;</span>, <span class="string">&quot;§&quot;</span>) );</span><br><span class="line">            <span class="comment">//把每一个内容都加上公告前缀，并替换颜色字符</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.broad = <span class="keyword">new</span> BukkitRunnable() &#123;</span><br><span class="line">            <span class="keyword">private</span> List&lt;String&gt; message = messages;</span><br><span class="line">            <span class="keyword">private</span> <span class="keyword">int</span> post = <span class="number">0</span>;</span><br><span class="line">            <span class="comment">//当前播放广播的位置</span></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">                Bukkit.broadcastMessage(<span class="keyword">this</span>.message.get(post));</span><br><span class="line">                <span class="comment">//广播公告</span></span><br><span class="line">                post = (post + <span class="number">1</span>) % <span class="keyword">this</span>.message.size();</span><br><span class="line">                <span class="comment">//调整post位置为post+1，若post已指向最后一个则从0开始</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;.runTaskTimerAsynchronously(<span class="keyword">this</span>, <span class="number">0</span>, cooldown*<span class="number">20</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">this</span>.getLogger().info(<span class="string">&quot;公告模块未启用！&quot;</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;插件被启动了&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后如果我们想要关闭这个线程，只要使用这个线程返回的BukkitTask里的cancel方法就可以关闭这个线程了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDisable</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//其他代码</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.broad != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.broad.cancel();</span><br><span class="line">        <span class="comment">//如果broad已被实例化了，则取消这个线程</span></span><br><span class="line">        <span class="comment">//因为上面的代码中我们实例化了broad之后就开启了这个线程</span></span><br><span class="line">        <span class="comment">//所以我们只需要判断broad是否实例化，而不用判断它是否被开启了</span></span><br><span class="line">        <span class="keyword">this</span>.getLogger().info(<span class="string">&quot;公告模块已关闭！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(<span class="string">&quot;插件被关闭了&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这两样代码作用都是一样的，只是我不是很喜欢匿名内部类的写法，容易出错。</p>
+<h1 id="BukkitTask"><a href="#BukkitTask" class="headerlink" title="BukkitTask"></a>BukkitTask</h1><p>BukkitRunnable里的所有启动线程方法都会返回一个BukkitTask（除了run()），这个BukkitTask里的cancel方法和BukkitRunnable里的cancel不太一样。<br>比如说你现在一个BukkitRunnable同时执行了两次创建线程的方法，那么他将返回两个不同的BukkitTask，使用这两个方法中的一个BukkitTask.cancel()只会停止其中一个线程，但是如果你使用了BukkitRunnable里的cancel()方法，两个线程都会被停止……请注意这一点。<br>在上面介绍的自动公告中，第一种写法里我们只创建了一个线程，所以使用BukkitRunnable里的cancel并无大碍，读者以后使用这个方法时应该提醒自己：是否需要关闭所有由该实例创建的线程！</p>
+<h1 id="本章完"><a href="#本章完" class="headerlink" title="本章完"></a>本章完</h1><h2 id="点我返回目录"><a href="#点我返回目录" class="headerlink" title="点我返回目录"></a><a href="/2017/05/13/Bukkit%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E6%95%99%E7%A8%8B/"><strong>点我返回目录</strong></a></h2><p>感谢各位的阅读！</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>人生不易，仓鼠断气</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/%E5%BE%AE%E4%BF%A1%E6%89%93%E8%B5%8F.jpg" alt="叁只仓鼠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%89%93%E8%B5%8F.jpg" alt="叁只仓鼠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>叁只仓鼠
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://www.hamster3.cn/Bukkit-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="Bukkit插件教程篇之多线程">https://www.hamster3.cn/Bukkit-多线程/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/Bukkit-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" rel="prev" title="Bukkit插件教程篇之配置文件">
+      <i class="fa fa-chevron-left"></i> Bukkit插件教程篇之配置文件
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/Java%E5%9F%BA%E7%A1%80-%E6%9D%A1%E4%BB%B6%E5%92%8C%E5%BE%AA%E7%8E%AF/" rel="next" title="Java-条件和循环">
+      Java-条件和循环 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80Mjg5OC8xOTQ0NA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B"><span class="nav-number">1.</span> <span class="nav-text">开始</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AC%E7%AB%A0%E8%A6%81%E6%B1%82"><span class="nav-number">2.</span> <span class="nav-text">本章要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BukkitRunnable%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.</span> <span class="nav-text">BukkitRunnable介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BukkitRunnable%E6%96%B9%E6%B3%95%E4%BB%8B%E7%BB%8D"><span class="nav-number">4.</span> <span class="nav-text">BukkitRunnable方法介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90%EF%BC%9A%E8%87%AA%E5%8A%A8%E5%85%AC%E5%91%8A"><span class="nav-number">5.</span> <span class="nav-text">例子：自动公告</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%E5%86%99%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">匿名内部类写法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BukkitTask"><span class="nav-number">7.</span> <span class="nav-text">BukkitTask</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AC%E7%AB%A0%E5%AE%8C"><span class="nav-number">8.</span> <span class="nav-text">本章完</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%B9%E6%88%91%E8%BF%94%E5%9B%9E%E7%9B%AE%E5%BD%95"><span class="nav-number">8.1.</span> <span class="nav-text">点我返回目录</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="叁只仓鼠"
+      src="/images/1407293-19.jpg">
+  <p class="site-author-name" itemprop="name">叁只仓鼠</p>
+  <div class="site-description" itemprop="description">现在开始我所展望的未来在哪里呢？</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/MiniDay" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;MiniDay" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/MiniDay" title="gitee → https:&#x2F;&#x2F;gitee.com&#x2F;MiniDay" rel="noopener" target="_blank"><i class="fa fa-fw fa-code"></i>gitee</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/profiles/76561198815642835/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198815642835&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-steam"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://music.163.com/#/user/home?id=115589747" title="网易云音乐 → http:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;115589747" rel="noopener" target="_blank"><i class="fa fa-fw fa-fas fa-music"></i>网易云音乐</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.ixnah.com/" title="https:&#x2F;&#x2F;www.ixnah.com&#x2F;" rel="noopener" target="_blank">寒兮</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hookan.top/" title="https:&#x2F;&#x2F;blog.hookan.top" rel="noopener" target="_blank">皇天</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://mkaliez.com/" title="https:&#x2F;&#x2F;mkaliez.com&#x2F;" rel="noopener" target="_blank">F_picacho</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ustc-zzzz.net/" title="https:&#x2F;&#x2F;blog.ustc-zzzz.net&#x2F;" rel="noopener" target="_blank">ustc-zzzz</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.zhaisoul.com/" title="http:&#x2F;&#x2F;www.zhaisoul.com&#x2F;" rel="noopener" target="_blank">宅魂</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.x-speed.cc/" title="https:&#x2F;&#x2F;blog.x-speed.cc&#x2F;" rel="noopener" target="_blank">Srar</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.bangbang93.com/" title="https:&#x2F;&#x2F;blog.bangbang93.com&#x2F;" rel="noopener" target="_blank">bangbang93</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.mengcraft.com/" title="https:&#x2F;&#x2F;blog.mengcraft.com&#x2F;" rel="noopener" target="_blank">梦梦</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://cireu.github.io/" title="https:&#x2F;&#x2F;cireu.github.io&#x2F;" rel="noopener" target="_blank">NIL</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://acgvideo.co/" title="https:&#x2F;&#x2F;acgvideo.co&#x2F;" rel="noopener" target="_blank">梦彗業</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">叁只仓鼠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script data-pjax>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"gyX4H7ocYLcq7cdMyPdEdImB-gzGzoHsz","app_key":"XYr8QKbxCONFPwgGIMYfa9L0","server_url":null,"security":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+    </div>
+</body>
+</html>

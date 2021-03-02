@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/1407293-19.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/1407293-19.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/1407293-19.jpg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.hamster3.cn","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="开始前面已经多次提到面向对象是Java语言的精髓，没有学过面向对象的人是写不出优秀的Java。那么开始这一节让各位期待良久（才怪嘞）了的课吧~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java进阶-类和对象">
+<meta property="og:url" content="https://www.hamster3.cn/Java%E8%BF%9B%E9%98%B6-%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1/index.html">
+<meta property="og:site_name" content="叁只仓鼠的博客">
+<meta property="og:description" content="开始前面已经多次提到面向对象是Java语言的精髓，没有学过面向对象的人是写不出优秀的Java。那么开始这一节让各位期待良久（才怪嘞）了的课吧~">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-07-31T13:21:20.000Z">
+<meta property="article:modified_time" content="2019-06-11T10:31:05.768Z">
+<meta property="article:author" content="叁只仓鼠">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.hamster3.cn/Java%E8%BF%9B%E9%98%B6-%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Java进阶-类和对象 | 叁只仓鼠的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">叁只仓鼠的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-mcstory">
+
+    <a href="/sponsor/mcstory.html" rel="section"><i class="fa fa-fw fa-tasks"></i>mcstory</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.hamster3.cn/Java%E8%BF%9B%E9%98%B6-%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1407293-19.jpg">
+      <meta itemprop="name" content="叁只仓鼠">
+      <meta itemprop="description" content="现在开始我所展望的未来在哪里呢？">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="叁只仓鼠的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java进阶-类和对象
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-07-31 21:21:20" itemprop="dateCreated datePublished" datetime="2017-07-31T21:21:20+08:00">2017-07-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-11 18:31:05" itemprop="dateModified" datetime="2019-06-11T18:31:05+08:00">2019-06-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/Java%E8%BF%9B%E9%98%B6-%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1/" class="post-meta-item leancloud_visitors" data-flag-title="Java进阶-类和对象" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><p>前面已经多次提到面向对象是Java语言的精髓，没有学过面向对象的人是写不出优秀的Java。那么开始这一节让各位期待良久（才怪嘞）了的课吧~</p>
+<span id="more"></span>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=36103287&auto=0&height=66"></iframe>
+**↑不来一首BGM吗？**
+
+<h1 id="本章要求"><a href="#本章要求" class="headerlink" title="本章要求"></a>本章要求</h1><ul>
+<li>定义类</li>
+<li>类的属性</li>
+<li>类的行为（又称为方法）</li>
+<li>创建对象</li>
+<li>权限关键字</li>
+<li>包</li>
+</ul>
+<h1 id="定义类"><a href="#定义类" class="headerlink" title="定义类"></a>定义类</h1><p>先来看代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义一个名称为Book的类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span> </span>&#123;</span><br><span class="line">    <span class="comment">//为Book类定义一个String类型的属性</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="comment">//为Book类定义一个int类型的属性</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> ID;</span><br><span class="line">    <span class="comment">//构造方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Book</span><span class="params">(String name, <span class="keyword">int</span> ID)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//使用this关键词将获取到全局变量，屏蔽局部变量</span></span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.ID = ID;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//定义行为：获取书的名字</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//定义行为：获取书的ID</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getID</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ID;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//定义行为：让书爆炸吧！</span></span><br><span class="line">    <span class="comment">//↑什么鬼！</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">boom</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="keyword">this</span>.name + <span class="string">&quot;爆炸了一次!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>虽然有注释，但是我猜到你们这群(sb)还是会看不懂，没办法呢，那么我来解释这些代码：<br>Book类，也就是书类，在我的代码里，一本书是有ID和名称的，因此我为他赋上属性：ID 和 name<br>这个ID和name也不是空在那里没有用的，我需要在其他代码里获取这个name和ID，于是我设置行为：getName和getID来分别返回这本书的Name和ID。<br>而且这个行为是有返回值的（除非你写个void返回值），就比如说我们那个getName行为，返回值就是一个String。<br>如何定义一个行为？如下格式：<br><code>权限修饰符 返回值 行为名称(行为要接收的数据) &#123;代码块...&#125;</code><br>权限修饰符待会再讲…</p>
+<p>还有差点被我忘掉的构造方法：这个方法在类被实例化时调用，如果你不写这个方法，系统会自动为你创建一个什么都不做的构造方法。它是一个没有返回值，而且固定为public的方法。我这个Book被创建的时候需要初始化它的ID和name。因此，我使用构造方法，接收一个String和int值并保存下来。<br>总之，做完这些，你的Java就知道了“噢，Book就是这么个东西”<br>（不仅如此他还知道“你个sb写的什么弱鸡代码还好意思拿给我看你都不嫌丢脸的吗快滚吧你”）<br><strong>在构造方法中，我们让外部传递了一个String和int过来，这两个值将在这个方法中成为名为name和ID的局部变量。你知道，局部变量再越过花括号}就将死亡，而我们的name和ID是以后还需要用到的，因此我们需要把它存为全局变量，全局变量可以一直存在，直到这个对象死亡。而我们下面的getID和getName方法return的都是全局变量name和ID</strong></p>
+<h1 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h1><p>类不是对象，它仅仅是创建对象的一个模板，仅仅声明一个类是不会有任何效果的，我们需要在main函数的代码里搞♂出来一个对象，然后对它做一些事♂情。<br>看代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//以Book类为模板创建对象</span></span><br><span class="line">    Book my_book = <span class="keyword">new</span> Book(<span class="string">&quot;金瓶梅&quot;</span>,<span class="number">0</span>);</span><br><span class="line">    <span class="comment">//使用Book类的一些行为</span></span><br><span class="line">    System.out.println(my_book.getName() + <span class="string">&quot;的ID是: &quot;</span> + my_book.getID());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里要讲一下的就是<code>new</code>这个关键词了，它是用来实例化对象的关键词。<br>之前将数组的时候有提到这个，数组也是对象，所以需要用new来创建数组。</p>
+<blockquote>
+<p>一个普通类在没有实例化之前,就是new之前,它的属性,方法等等在内存中都是不存在的.只有new了以后,这个类的一些东西在内存中才会真的存在,也就是说只有new了之后,这个类才能用.<br>出自<a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/55121438.html">百度知道</a></p>
+</blockquote>
+<p>关于括号里的<code>&quot;金瓶梅&quot;,0</code>，你应该猜得到：“金瓶梅”将成为my_book这个对象的name，0将成为它的ID。<br>而后的代码里我使用getName和getID来再次获取它。</p>
+<h1 id="权限关键字"><a href="#权限关键字" class="headerlink" title="权限关键字"></a>权限关键字</h1><p>属性和行为都是有权限的，你可以设置public属性，这样所有代码都能直接通过<code>对象名.属性名</code>来访问这个属性（但是我不推荐这么做）<br>行为也是有权限的，private行为将只有本类自己能访问，外部无法访问。<br>我先列一下这个权限表</p>
+<p>||public|protected|default|private|<br>|——|——|——||——||——||——|<br>|本类|√|√|√|√|<br>|同包的其他类|√|√|√|×|<br>|子类\父类|√|√|×|×|<br>|其他包的其他类|√|×|×|×|</p>
+<p>public：公共的<br>protected：受保护的<br>default：默认的<br>private：私有的</p>
+<hr>
+<p>这么一张表应该很清晰了，举个例子：<br>如果我Book的name是public权限，那么我main函数里就可以直接<code>my_book.name</code>来获取到这本书的名字了。而且我还可以<code>my_book.name = &quot;Java从入门到入土&quot;</code>来更改这本书的名字。好吧，这样看起来，把属性设置为public权限是很方便的，那么为什么仓鼠说不推荐这么做呢？<br><strong>因为这样，别人就能轻易获取并修改你对象的属性</strong>（噢！天呐！他居然真的敢把我女朋友给扎破！<br>再者，如果你某天把这个变量给改了一下名字…那么岂不是其他所有程序里有关到这个变量的代码都得重写？想一想：如果bukkit里的某个变量是这么做的，而某一天作者突然看到“乌鸦坐飞机”这个变量名很不爽，而把他改成了“龙卷风摧毁停车场”，那么所有使用了“乌鸦坐飞机”这个变量的插件都无法使用了！（当然这种情况基本上是不会发生的<br>什么？你说你不会智障到随便去改一个变量的名字？emmmm，那我再给你讲一个例子：<br>你写了一个游戏，还很聪明得为开发者们留了API，好让更多的人来为你的游戏想写插件增加新玩法。但是呢，因为你的代码里类的属性全都是public，导致了一些奇怪的问题：某个开发者写的代码逻辑出了一些问题，它可能将玩家的血量设置超过了100，然而玩家的最大血量是100，这就尴尬了：一个玩家的血量竟然超过了他的血量上限，这个bug导致了一些奇奇怪怪的问题。然而这位奇怪的开发者却并不觉得这是自己的错，他反而把锅推给你说：“你的程序容错性也太差了吧！为什么仅仅是血量设置超过上限就导致我的电脑爆炸了！”</p>
+<p>于是你将你的游戏重写了，类的属性不再是public，而是被改成了private……嗯？那么我们要如何获取这些属性？<br>当然是getter方法啦：getName()、getID()……<br>如何设置这些属性呢？<br>自然是setter方法啦：setName(String name)、setID(int ID)、setHealth(int health)…<br>虽然这还不如直接<code>p.health = 100</code>来的简洁明了，但是它却保证了代码的安全性<br>别急，我们来看看他的setHealth的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setHealth</span><span class="params">(<span class="keyword">int</span> health)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(health &gt; <span class="number">100</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.health = <span class="number">100</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.health = health;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>WoW！多么聪明的代码！这样玩家的血量无论如何都不会超过它的上限了~</p>
+<hr>
+<p>看完上面的例子，你应该知道了我为啥不推荐直接将属性设为public：这样是极不安全的。使用setter来设置属性内容让我们的代码更安全。如果我们不希望外部代码更改我们类的属性，可以只设置getter而不留setter，反之亦然。</p>
+<p>如果某个行为你不希望外部调用到，可以将它设置为private，比如说一段代码在你这个类里可能多次出现，那么你可以把这段代码单独包装起来，设置为private的行为，然后调用this.xxx();来使用这段重复的代码，这样可以完美的避免代码冗余的尴尬。</p>
+<p>类也可以修饰为public，但是public类只能在他自己的文件中声明，比如如果Book类被声明为public，那么我只能在Book.java这个文件中写这段代码</p>
+<hr>
+<p>另外：<br>包是用来方便管理代码的工具，比如说：人类和狗类都属于生物类，我们就可以把它放在一个专门存生物类代码的包中、书类和笔类都属于物品类，我们可以把他放在一个专门存物品类代码的包中。<br>怎么创建包？右键src –&gt; 新建 –&gt; 包 –&gt; 输入包名<br>先别急着输入，我们来讲一讲Java包的命名规则<br><a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/397943426.html">百度知道</a><br>其实要讲也没这么麻烦，总之注意两点：<br>1.不要有大写英文字母<br>2.包首以自己的域名或邮箱的翻转输入<br>例如我的包一般为：cn.viosin.项目名.xxx<br>我存这个生物类包就是cn.viosin.teachingprocedure.biology<br>我存这个物品类的包就是cn.viosin.teachingprocedure.item<br><strong>讲了这么多，其实没乱用</strong>，你若非要用你那杀马特的包名也没人说你，反正别人翻你代码又不看你包名的（你那辣鸡代码你确定有人看？）</p>
+<p>“说了这么多你还是没告诉我为啥那个书有‘爆炸’这个行为啊”<br>那只是用来凑字数的2333</p>
+<hr>
+<h1 id="静态变量、方法"><a href="#静态变量、方法" class="headerlink" title="静态变量、方法"></a>静态变量、方法</h1><p>在讲这个之前，我们得先来认识一下static关键字。也许你见过这个关键字，嗯….就是那个<code>public static void main(String args[]) &#123;&#125;</code><br>之前有说过，你的程序启动的时候外部会调用这个方法，public是什么已经讲过了，void你也应该知道了它代表着无返回值的意思<br>为啥这个方法一定要叫main我也解释过，因为这是规定…<br>static是静态修饰符，它的作用是让一个变量或者方法可以超脱世俗。<br>一个public static的[属性/方法]能够直接被外部以 类名.xxx 调用。不仅如此，一个静态的属性，是所有该类的对象都共享的，它将成为这个类的对象的公共属性。<br>（区别于非公共属性，比如说狗，两只狗可以拥有不同的生命值，所以我们定义生命值属性时不需要使用staic）<br>他的生命周期不同于全局变量（对象死亡时消失）和局部变量（方法执行完则消失），静态属性只会在你的程序执行结束时才会死亡。<br>比如说你的Book类有一个静态属性<code>public static int size;</code>那么这个int size将被所有Book共享，不管你是<code>Book book1 = new Book();</code>还是<code>Book book2 = new Book();</code>或者是<code>Book book3 = new Book();</code>总之他们的size都是相同的，你改变了book1的size，那么book2和book3的size也会被改变。而且，就算你没有new出来book，你也可以直接<code>Book.size = 2;</code>这样子来更改它，除非你没有这个属性的访问权（比如它被设置为private了）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFirstClass</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Book book1 = <span class="keyword">new</span> Book(<span class="string">&quot;金瓶梅&quot;</span>, <span class="number">0</span>);</span><br><span class="line">        Book book2 = <span class="keyword">new</span> Book(<span class="string">&quot;Java从入门到入土&quot;</span>, <span class="number">1</span>);</span><br><span class="line">        Book book3 = <span class="keyword">new</span> Book(<span class="string">&quot;如何攻略小羽酱&quot;</span>, <span class="number">2</span>);</span><br><span class="line">        System.out.println(book1.getName() + <span class="string">&quot; 的size是 &quot;</span> + book1.size);</span><br><span class="line">        book2.size = <span class="number">20</span>;</span><br><span class="line">        System.out.println(book1.getName() + <span class="string">&quot; 的size变成了 &quot;</span> + book1.size);</span><br><span class="line">        Book.size = <span class="number">30</span>;</span><br><span class="line">        System.out.println(book3.getName() + <span class="string">&quot; 的size又变成了 &quot;</span> + book3.size);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//定义一个名称为Book的类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span> </span>&#123;</span><br><span class="line">    <span class="comment">//为Book类定义一个String类型的属性</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="comment">//为Book类定义一个int类型的属性</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> ID;</span><br><span class="line">    <span class="comment">//公共静态变量szie</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> size;</span><br><span class="line">    <span class="comment">//构造方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Book</span><span class="params">(String name, <span class="keyword">int</span> ID)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//使用this关键词将获取到全局变量，屏蔽局部变量</span></span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.ID = ID;</span><br><span class="line">        size = <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//定义行为：获取书的名字</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//定义行为：获取书的ID</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getID</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ID;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//定义行为：让书爆炸吧！</span></span><br><span class="line">    <span class="comment">//↑什么鬼！</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">boom</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="keyword">this</span>.name + <span class="string">&quot;爆炸了一次!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">金瓶梅 的size是 10</span><br><span class="line">金瓶梅 的size变成了 20</span><br><span class="line">如何攻略小羽酱 的size又变成了 30</span><br></pre></td></tr></table></figure>
+<p>那么接下来我们再讲一讲静态方法：<br>用了这么久的main你也应该有了解一点吧，静态方法可以直接通过 类名.方法名(xxx)来使用<br>比如说，如果我让Book类有一个静态方法…</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFirstClass</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Book.boom();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">boom</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Book毫无意义的boom了~&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>值得一提的是，在静态方法里我们无法使用非静态的成员变量。（想一想，为什么？</p>
+<h1 id="对象的引用"><a href="#对象的引用" class="headerlink" title="对象的引用"></a>对象的引用</h1><p>在上一节中我们有说过，你得告诉Java你说的对象是哪个对象，代码中<code>Book book1 = new Book(&quot;金瓶梅&quot;, 0);</code>这样子在一个book新出生时我们就用book1指向他，以后我们再说book1的时候，Java就知道我们指的是这本书。<br>同理：<code>Book book2 = new Book(&quot;如何攻略小羽酱&quot;, 1);</code>就是用book2指向另一本刚出生的book类对象。<br>这样，Java就知道，book1是指金瓶梅这本书，book2是指如何攻略小羽酱这本书。你现在可以用book1和book2来做一些事。<br>嗯……但我们可不是来谈论如何让book1与book2交配的，我们来做一些<strong>残忍</strong>的事情：<br>我们<code>book2 = boo1;</code>，这样会发生什么？<br>你这样做了之后，book2变成指向book1的那本书了，也就是说，book2指向了金瓶梅，而book1也还是只想金瓶梅<br>那如何攻略小羽酱这本书呢？现在没有任何一个指针指向它，它将怎么样？<br><strong>他要死了！</strong><br>没错，它已经死了，你在世界上再也找不到完全和它一样的对象了。<br>（即使你再使用<code>book2 = new Book(&quot;如何攻略小羽酱&quot;, 1);</code>，但是由于在内存中的分配地址不一样，它和之前的那本如何攻略小羽酱还是不一样的233333）<br><strong>这可真残忍呢，不是吗？</strong><br>除此之外，你可以这样<code>Book book1;</code>来创建一个名称为book1的指针。尽管目前它并不指向任何Book，但是它就是存在，毫无意义的存在着。<br>如果你这个时候要求<code>book1.getName();</code>会怎么样呢？<br>Java会尝试找到book1指向的这本书，然后他发现，无论他如何努力都找不到这本书，最后只好死给你看了（甩你一脸空指针异常）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread <span class="string">&quot;main&quot;</span> java.lang.NullPointerException</span><br><span class="line">	at MyFirstClass.main(MyFirstClass.java:<span class="number">6</span>)</span><br></pre></td></tr></table></figure>
+<p>关于异常的问题，我们以后会讲到的…</p>
+<h1 id="再谈this"><a href="#再谈this" class="headerlink" title="再谈this"></a>再谈this</h1><p>前面说过，this.xxx可以获取到本类的全局变量，但是this并不仅仅只有这个作用<br>this是指向当前对象的指针，也就是指向自己的指针。<br>比如说，我们写一个狗打架的程序（毫无意义）<br>这个狗呢，可以attack（攻击），也可以hurt（受伤）<br>attack需要传递另一只狗过来好让这只狗知道他该打谁（先判断自己血量是不是低于0，不是再攻击）<br>而hurt呢也需要传递一只狗过来好让这只受伤的狗知道是谁打了他（先减少自己的血量，然后再调用自己的attack反击）<br>那么我们只需要在attack中调用另一只狗的hurt方法，然后把自己传递过去<br>那么我们就可以这样dog2.hurt(this);<br>没错，this指向自己，然后把自己传了过去23333</p>
+<h1 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h1><p>算了我懒得布置练习了，来看看下面这一个毫无卵用的程序吧~</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFirstClass</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//获取随机数</span></span><br><span class="line">        Random random = <span class="keyword">new</span> Random();</span><br><span class="line">        <span class="keyword">int</span> id = random.nextInt();</span><br><span class="line">        Dog dog1 = <span class="keyword">new</span> Dog(<span class="string">&quot;狗群员&quot;</span>, id++, random.nextInt(<span class="number">32768</span>), random.nextInt(<span class="number">1000</span>));</span><br><span class="line">        Dog dog2 = <span class="keyword">new</span> Dog(<span class="string">&quot;狗群主&quot;</span>, id++, random.nextInt(<span class="number">32768</span>), random.nextInt(<span class="number">1000</span>));</span><br><span class="line">        dog1.attack(dog2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> </span>&#123;</span><br><span class="line">    <span class="comment">//名称</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="comment">//ID</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="comment">//血量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> health;</span><br><span class="line">    <span class="comment">//伤害</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> damage;</span><br><span class="line">    <span class="comment">//行为：攻击一只狗</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Dog</span><span class="params">(String name, <span class="keyword">int</span> id, <span class="keyword">int</span> health, <span class="keyword">int</span> damage)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">        <span class="keyword">if</span>(health &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            health = -health + <span class="number">1000</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(damage &lt;= <span class="number">0</span> ) &#123;</span><br><span class="line">            damage = -damage + <span class="number">1000</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.health = health;</span><br><span class="line">        <span class="keyword">this</span>.damage = damage;</span><br><span class="line">        System.out.println(name + <span class="string">&quot;已上线, ID: &quot;</span> + id + <span class="string">&quot; 血量: &quot;</span> + health + <span class="string">&quot; 伤害: &quot;</span> + damage);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//行为: 攻击</span></span><br><span class="line">    <span class="comment">//dog: 攻击的目标</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attack</span><span class="params">(Dog dog)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(dog.getId() == <span class="keyword">this</span>.id) &#123;</span><br><span class="line">            System.out.println(<span class="keyword">this</span>.name + <span class="string">&quot; 并不想攻击自己&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(health &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            System.out.println(<span class="keyword">this</span>.name + <span class="string">&quot;已经狗带了，无法再攻击!&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//让attack的目标受伤</span></span><br><span class="line">            dog.hurt(<span class="keyword">this</span>, damage);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//行为：被一只狗攻击</span></span><br><span class="line">    <span class="comment">//dog: 攻击来源</span></span><br><span class="line">    <span class="comment">//damage: 伤害值</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hurt</span><span class="params">(Dog dog, <span class="keyword">int</span> damage)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//减血</span></span><br><span class="line">        <span class="keyword">this</span>.health = <span class="keyword">this</span>.health - damage;</span><br><span class="line">        System.out.println(<span class="keyword">this</span>.name + <span class="string">&quot; 被 &quot;</span> + dog.getName() + <span class="string">&quot; 攻击了,当前血量: &quot;</span> + <span class="keyword">this</span>.health);</span><br><span class="line">        <span class="comment">//反击</span></span><br><span class="line">        System.out.println(<span class="keyword">this</span>.name + <span class="string">&quot; 想要反击 &quot;</span> + dog.getName());</span><br><span class="line">        attack(dog);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样当一只狗攻击另一只狗的时候，另一只狗就会反击，反过来攻击这只狗，而这只狗又反击…<br>无限循环直到其中一只go die了<br>执行后是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">狗群员已上线, ID: 1775386723 血量: 6975 伤害: 960</span><br><span class="line">狗群主已上线, ID: 1775386724 血量: 14832 伤害: 698</span><br><span class="line">狗群主 被 狗群员 攻击了,当前血量: 13872</span><br><span class="line">狗群主 想要反击 狗群员</span><br><span class="line">狗群员 被 狗群主 攻击了,当前血量: 6277</span><br><span class="line">狗群员 想要反击 狗群主</span><br><span class="line">狗群主 被 狗群员 攻击了,当前血量: 12912</span><br><span class="line">狗群主 想要反击 狗群员</span><br><span class="line">狗群员 被 狗群主 攻击了,当前血量: 5579</span><br><span class="line">狗群员 想要反击 狗群主</span><br><span class="line">狗群主 被 狗群员 攻击了,当前血量: 11952</span><br><span class="line">狗群主 想要反击 狗群员</span><br><span class="line">狗群员 被 狗群主 攻击了,当前血量: 4881</span><br><span class="line">狗群员 想要反击 狗群主</span><br><span class="line">狗群主 被 狗群员 攻击了,当前血量: 10992</span><br><span class="line">狗群主 想要反击 狗群员</span><br><span class="line">狗群员 被 狗群主 攻击了,当前血量: 4183</span><br><span class="line">狗群员 想要反击 狗群主</span><br><span class="line">狗群主 被 狗群员 攻击了,当前血量: 10032</span><br><span class="line">狗群主 想要反击 狗群员</span><br><span class="line">狗群员 被 狗群主 攻击了,当前血量: 3485</span><br><span class="line">狗群员 想要反击 狗群主</span><br><span class="line">狗群主 被 狗群员 攻击了,当前血量: 9072</span><br><span class="line">狗群主 想要反击 狗群员</span><br><span class="line">狗群员 被 狗群主 攻击了,当前血量: 2787</span><br><span class="line">狗群员 想要反击 狗群主</span><br><span class="line">狗群主 被 狗群员 攻击了,当前血量: 8112</span><br><span class="line">狗群主 想要反击 狗群员</span><br><span class="line">狗群员 被 狗群主 攻击了,当前血量: 2089</span><br><span class="line">狗群员 想要反击 狗群主</span><br><span class="line">狗群主 被 狗群员 攻击了,当前血量: 7152</span><br><span class="line">狗群主 想要反击 狗群员</span><br><span class="line">狗群员 被 狗群主 攻击了,当前血量: 1391</span><br><span class="line">狗群员 想要反击 狗群主</span><br><span class="line">狗群主 被 狗群员 攻击了,当前血量: 6192</span><br><span class="line">狗群主 想要反击 狗群员</span><br><span class="line">狗群员 被 狗群主 攻击了,当前血量: 693</span><br><span class="line">狗群员 想要反击 狗群主</span><br><span class="line">狗群主 被 狗群员 攻击了,当前血量: 5232</span><br><span class="line">狗群主 想要反击 狗群员</span><br><span class="line">狗群员 被 狗群主 攻击了,当前血量: -5</span><br><span class="line">狗群员 想要反击 狗群主</span><br><span class="line">狗群员已经狗带了，无法再攻击!</span><br></pre></td></tr></table></figure>
+
+<h1 id="本章完"><a href="#本章完" class="headerlink" title="本章完"></a>本章完</h1><h2 id="点我返回目录"><a href="#点我返回目录" class="headerlink" title="点我返回目录"></a><a href="/2017/05/13/Bukkit%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E6%95%99%E7%A8%8B/"><strong>点我返回目录</strong></a></h2><p>感谢各位的阅读！</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>人生不易，仓鼠断气</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/%E5%BE%AE%E4%BF%A1%E6%89%93%E8%B5%8F.jpg" alt="叁只仓鼠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%89%93%E8%B5%8F.jpg" alt="叁只仓鼠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>叁只仓鼠
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://www.hamster3.cn/Java%E8%BF%9B%E9%98%B6-%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1/" title="Java进阶-类和对象">https://www.hamster3.cn/Java进阶-类和对象/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/Java%E8%BF%9B%E9%98%B6-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="prev" title="Java进阶-面向对象">
+      <i class="fa fa-chevron-left"></i> Java进阶-面向对象
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/Java%E8%BF%9B%E9%98%B6-%E7%BB%A7%E6%89%BF%E6%8E%A5%E5%8F%A3%E4%B8%8E%E5%A4%9A%E6%80%81/" rel="next" title="Java进阶-继承接口与多态">
+      Java进阶-继承接口与多态 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80Mjg5OC8xOTQ0NA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B"><span class="nav-number">1.</span> <span class="nav-text">开始</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AC%E7%AB%A0%E8%A6%81%E6%B1%82"><span class="nav-number">2.</span> <span class="nav-text">本章要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E7%B1%BB"><span class="nav-number">3.</span> <span class="nav-text">定义类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1"><span class="nav-number">4.</span> <span class="nav-text">创建对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">5.</span> <span class="nav-text">权限关键字</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E3%80%81%E6%96%B9%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">静态变量、方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BC%95%E7%94%A8"><span class="nav-number">7.</span> <span class="nav-text">对象的引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%8D%E8%B0%88this"><span class="nav-number">8.</span> <span class="nav-text">再谈this</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%83%E4%B9%A0"><span class="nav-number">9.</span> <span class="nav-text">练习</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AC%E7%AB%A0%E5%AE%8C"><span class="nav-number">10.</span> <span class="nav-text">本章完</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%B9%E6%88%91%E8%BF%94%E5%9B%9E%E7%9B%AE%E5%BD%95"><span class="nav-number">10.1.</span> <span class="nav-text">点我返回目录</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="叁只仓鼠"
+      src="/images/1407293-19.jpg">
+  <p class="site-author-name" itemprop="name">叁只仓鼠</p>
+  <div class="site-description" itemprop="description">现在开始我所展望的未来在哪里呢？</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/MiniDay" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;MiniDay" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/MiniDay" title="gitee → https:&#x2F;&#x2F;gitee.com&#x2F;MiniDay" rel="noopener" target="_blank"><i class="fa fa-fw fa-code"></i>gitee</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/profiles/76561198815642835/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198815642835&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-steam"></i>Steam</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://music.163.com/#/user/home?id=115589747" title="网易云音乐 → http:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;115589747" rel="noopener" target="_blank"><i class="fa fa-fw fa-fas fa-music"></i>网易云音乐</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.ixnah.com/" title="https:&#x2F;&#x2F;www.ixnah.com&#x2F;" rel="noopener" target="_blank">寒兮</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hookan.top/" title="https:&#x2F;&#x2F;blog.hookan.top" rel="noopener" target="_blank">皇天</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://mkaliez.com/" title="https:&#x2F;&#x2F;mkaliez.com&#x2F;" rel="noopener" target="_blank">F_picacho</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ustc-zzzz.net/" title="https:&#x2F;&#x2F;blog.ustc-zzzz.net&#x2F;" rel="noopener" target="_blank">ustc-zzzz</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.zhaisoul.com/" title="http:&#x2F;&#x2F;www.zhaisoul.com&#x2F;" rel="noopener" target="_blank">宅魂</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.x-speed.cc/" title="https:&#x2F;&#x2F;blog.x-speed.cc&#x2F;" rel="noopener" target="_blank">Srar</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.bangbang93.com/" title="https:&#x2F;&#x2F;blog.bangbang93.com&#x2F;" rel="noopener" target="_blank">bangbang93</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.mengcraft.com/" title="https:&#x2F;&#x2F;blog.mengcraft.com&#x2F;" rel="noopener" target="_blank">梦梦</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://cireu.github.io/" title="https:&#x2F;&#x2F;cireu.github.io&#x2F;" rel="noopener" target="_blank">NIL</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://acgvideo.co/" title="https:&#x2F;&#x2F;acgvideo.co&#x2F;" rel="noopener" target="_blank">梦彗業</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">叁只仓鼠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script data-pjax>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"gyX4H7ocYLcq7cdMyPdEdImB-gzGzoHsz","app_key":"XYr8QKbxCONFPwgGIMYfa9L0","server_url":null,"security":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+    </div>
+</body>
+</html>
