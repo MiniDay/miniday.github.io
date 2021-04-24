@@ -205,13 +205,6 @@
               </span>
 
           
-            <span id="/Bukkit-%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%8F%92%E4%BB%B6/" class="post-meta-item leancloud_visitors" data-flag-title="Bukkit插件教程-第一个插件" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
 
         </div>
       </header>
@@ -241,7 +234,7 @@
 
 <h1 id="创建包"><a href="#创建包" class="headerlink" title="创建包"></a>创建包</h1><p>右键src –&gt; [新建] –&gt; [包] –&gt; [填写包名] –&gt; [完成]<br>包名就填写你plugin.yml里填写的包名，但是这个包名也是有要求的：你不能使用下列这几个包名</p>
 <blockquote>
-<p>org.bukkit<br>net.bukkit<br>com.bukkit<br>net.minecraft<br>（包名一般是使用全小写的<br>这里我推荐你使用自己的域名的倒置来写，像我的域名是hamster3.cn，于是我把它倒过来再加个插件名，成了cn.hamster3.testplugin。也有人习惯用自己的邮箱倒过来写，<a href="mailto:&#x63;&#111;&#x6d;&#x2e;&#64;&#x71;&#113;&#46;&#51;&#x37;&#x32;&#x34;&#48;&#x33;&#x39;&#x32;&#x33;">&#x63;&#111;&#x6d;&#x2e;&#64;&#x71;&#113;&#46;&#51;&#x37;&#x32;&#x34;&#48;&#x33;&#x39;&#x32;&#x33;</a>。嘛，其实这个对你的插件不会有什么影响，随自己喜欢就好了。</p>
+<p>org.bukkit<br>net.bukkit<br>com.bukkit<br>net.minecraft<br>（包名一般是使用全小写的<br>这里我推荐你使用自己的域名的倒置来写，像我的域名是hamster3.cn，于是我把它倒过来再加个插件名，成了cn.hamster3.testplugin。也有人习惯用自己的邮箱倒过来写，<a href="mailto:&#x63;&#111;&#109;&#x2e;&#x40;&#113;&#113;&#x2e;&#51;&#x37;&#50;&#52;&#x30;&#x33;&#57;&#x32;&#x33;">&#x63;&#111;&#109;&#x2e;&#x40;&#113;&#113;&#x2e;&#51;&#x37;&#50;&#52;&#x30;&#x33;&#57;&#x32;&#x33;</a>。嘛，其实这个对你的插件不会有什么影响，随自己喜欢就好了。</p>
 </blockquote>
 <h1 id="主类"><a href="#主类" class="headerlink" title="主类"></a>主类</h1><p>右键你刚刚创建的包 –&gt; [新建] –&gt; [类] –&gt; [填写类名] –&gt; [完成]<br>这时你会发现Eclipse已经自动给你写好了一些代码</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.viosin.minecraft;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -441,7 +434,7 @@
           <a href="https://cireu.github.io/" title="https:&#x2F;&#x2F;cireu.github.io&#x2F;" rel="noopener" target="_blank">NIL</a>
         </li>
         <li class="links-of-blogroll-item">
-          <a href="https://mhy278.net/" title="https:&#x2F;&#x2F;mhy278.net&#x2F;" rel="noopener" target="_blank">梦彗業</a>
+          <a href="https://www.mhy278.net/" title="https:&#x2F;&#x2F;www.mhy278.net&#x2F;" rel="noopener" target="_blank">梦彗業</a>
         </li>
     </ul>
   </div>
@@ -481,97 +474,6 @@
 
 
 
-<script>
-  (function() {
-    function leancloudSelector(url) {
-      url = encodeURI(url);
-      return document.getElementById(url).querySelector('.leancloud-visitors-count');
-    }
-
-    function addCount(Counter) {
-      var visitors = document.querySelector('.leancloud_visitors');
-      var url = decodeURI(visitors.id);
-      var title = visitors.dataset.flagTitle;
-
-      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
-        .then(response => response.json())
-        .then(({ results }) => {
-          if (results.length > 0) {
-            var counter = results[0];
-            leancloudSelector(url).innerText = counter.time + 1;
-            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
-              .catch(error => {
-                console.error('Failed to save visitor count', error);
-              });
-          } else {
-              Counter('post', '/classes/Counter', { title, url, time: 1 })
-                .then(response => response.json())
-                .then(() => {
-                  leancloudSelector(url).innerText = 1;
-                })
-                .catch(error => {
-                  console.error('Failed to create', error);
-                });
-          }
-        })
-        .catch(error => {
-          console.error('LeanCloud Counter Error', error);
-        });
-    }
-
-    function showTime(Counter) {
-      var visitors = document.querySelectorAll('.leancloud_visitors');
-      var entries = [...visitors].map(element => {
-        return decodeURI(element.id);
-      });
-
-      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
-        .then(response => response.json())
-        .then(({ results }) => {
-          for (let url of entries) {
-            let target = results.find(item => item.url === url);
-            leancloudSelector(url).innerText = target ? target.time : 0;
-          }
-        })
-        .catch(error => {
-          console.error('LeanCloud Counter Error', error);
-        });
-    }
-
-    let { app_id, app_key, server_url } = {"enable":true,"app_id":"gyX4H7ocYLcq7cdMyPdEdImB-gzGzoHsz","app_key":"XYr8QKbxCONFPwgGIMYfa9L0","server_url":null,"security":false};
-    function fetchData(api_server) {
-      var Counter = (method, url, data) => {
-        return fetch(`${api_server}/1.1${url}`, {
-          method,
-          headers: {
-            'X-LC-Id'     : app_id,
-            'X-LC-Key'    : app_key,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
-        });
-      };
-      if (CONFIG.page.isPost) {
-        if (CONFIG.hostname !== location.hostname) return;
-        addCount(Counter);
-      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
-        showTime(Counter);
-      }
-    }
-
-    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
-
-    if (api_server) {
-      fetchData(api_server);
-    } else {
-      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
-        .then(response => response.json())
-        .then(({ api_server }) => {
-          fetchData('https://' + api_server);
-        });
-    }
-  })();
-</script>
 
 
       </div>
